@@ -1,0 +1,5 @@
+--type-set=eiffel=.e,.eiffel
+--type-set=yaml=.yml
+--type-set=po=.po
+--type-set=xace=.xace
+--type-set=ecf=.ecf

@@ -1,0 +1,2 @@
+#Revert
+bind main ! !git revert %(commit)
