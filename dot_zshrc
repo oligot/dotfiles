@@ -1,0 +1,223 @@
+# zplug
+
+source ~/.zplug/init.zsh
+
+zplug "zsh-users/zsh-autosuggestions"
+zplug "zsh-users/zsh-syntax-highlighting"
+zplug "zsh-users/zsh-history-substring-search"
+zplug "MichaelAquilina/zsh-you-should-use"
+zplug "akarzim/zsh-docker-aliases"
+zplug "denisidoro/navi"
+zplug "changyuheng/fz", defer:1
+zplug "rupa/z", use:z.sh
+zplug "plugins/archlinux", from:oh-my-zsh
+zplug "plugins/docker", from:oh-my-zsh
+zplug "plugins/extract", from:oh-my-zsh
+zplug "plugins/fasd", from:oh-my-zsh
+zplug "plugins/git", from:oh-my-zsh
+zplug "plugins/git-extras", from:oh-my-zsh
+zplug "plugins/git-flow-avh", from:oh-my-zsh
+zplug "plugins/golang", from:oh-my-zsh
+zplug "plugins/npm", from:oh-my-zsh
+zplug "plugins/sudo", from:oh-my-zsh
+zplug "plugins/systemd", from:oh-my-zsh
+zplug "plugins/thefuck", from:oh-my-zsh
+zplug "plugins/tmux", from:oh-my-zsh
+# zplug "plugins/vi-mode", from:oh-my-zsh
+zplug "plugins/yarn", from:oh-my-zsh
+zplug "plugins/command-not-found", from:oh-my-zsh
+zplug "romkatv/powerlevel10k", as:theme, depth:1
+
+# Install plugins if there are plugins that have not been installed
+if ! zplug check --verbose; then
+    printf "Install? [y/N]: "
+    if read -q; then
+        echo; zplug install
+    fi
+fi
+
+zplug load
+
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# Environment variables
+#
+export PATH="$PATH:$HOME/bin:/usr/local/bin:$GOPATH/bin:$HOME/.local/bin:$HOME/.cargo/bin:$HOME/.fzf/bin"
+export GOPATH=$HOME/go
+export MANPATH=$MANPATH:/usr/local/share/man
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# ssh
+# export SSH_KEY_PATH="~/.ssh/dsa_id"
+export EDITOR="nvim"
+export BROWSER="firefox"
+export FZF_DEFAULT_COMMAND='rg --files --follow --hidden'
+# add support for ctrl+o to open selected file in VS Code
+export FZF_DEFAULT_OPTS="--bind='ctrl-o:execute(code {})+abort'"
+
+#Pager
+export LESS=-FSRX
+export LESS_TERMCAP_mb=$'\E[01;31m'    # début de blink
+export LESS_TERMCAP_md=$'\E[01;31m'    # début de gras
+export LESS_TERMCAP_me=$'\E[0m'        # fin
+export LESS_TERMCAP_so=$'\E[01;44;33m' # début de la ligne d`état
+export LESS_TERMCAP_se=$'\E[0m'        # fin
+export LESS_TERMCAP_us=$'\E[01;32m'    # début de souligné
+export LESS_TERMCAP_ue=$'\E[0m'        # fin
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+alias _='sudo'
+alias bh='bitbucket-home'
+alias cat='bat'
+alias cdr="cd $(git rev-parse --show-toplevel)"
+alias certpp='openssl x509 -text -in'
+alias d='git diff -w'
+alias df='df -h'
+alias dodo='sudo /sbin/shutdown -h now'
+alias du='du -h'
+alias gdcw='git diff --cached -w' # Overwrite oh-my-zsh git plugin
+alias gpa='git add . && git commit -v && git push'
+alias gstau='git stash push --include-untracked'
+alias gt='git tag'
+alias gwl='git worktree list'
+alias jc='sudo journalctl -u'
+alias jcf='sudo journalctl -f -u'
+alias l='ls -l'
+alias la='ls -a'
+alias ls='exa'
+alias preview="fzf --preview 'bat --color=always {}'"
+alias printcert="openssl x509 -noout -text -in "
+alias rm='rm -I'
+alias s='git status -s'
+alias sudo='sudo '
+alias v='nvim'
+alias yupi='yarn upgrade-interactive --latest'
+
+# Global aliases -- These do not have to be
+# at the beginning of the command line.
+alias -g L='| less'
+alias -g G='| grep'
+alias -g P='| python -m json.tool'
+
+function mingz () { curl -sL wzrd.in/standalone/"$1"|uglifyjs -mc 2>/dev/null|gzip -c|wc -c;}
+
+# zsh Options
+setopt			   \
+	autopushd 	   \
+	correct		   \
+	correctall	   \
+	extendedglob	   \
+	histignorealldups  \
+	pushdminus         \
+	pushdsilent        \
+	pushdtohome	   \
+	sharehistory
+
+unsetopt ignore_eof	   \
+	list_ambiguous
+
+# Terminal title
+case $TERM in
+   xterm*|rxvt*|screen)
+   precmd () {print -Pn "\e]0;%n@%m: %~\a"}
+   preexec () { print -Pn "\e]0;%n@%m: $1\a" }
+   ;;
+esac
+
+# Source environment variables
+for i in $HOME/.env/*; do
+    source $i
+done
+
+# Source local environment variables
+if [ -d "$HOME/.env.local" ]; then
+    for i in $HOME/.env.local/*; do
+        source $i
+    done
+fi
+
+bindkey '^R' history-incremental-search-backward
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+bindkey -v
+# allow v to edit the command line (standard behaviour)
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey -M vicmd 'v' edit-command-line
+eval $(thefuck --alias)
+
+# History
+[ -z "$HISTFILE" ] && HISTFILE="$HOME/.zsh_history"
+HISTSIZE=50000
+SAVEHIST=10000
+
+# Persistent rehash
+# https://wiki.archlinux.org/index.php/zsh#Persistent_rehash
+zstyle ':completion:*' rehash true
+# case-insensitive,partial-word and then substring completion
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+
+[[ -s "/home/oli/.gvm/scripts/gvm" ]] && source "/home/oli/.gvm/scripts/gvm"
+
+export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
+
+[ -f ~/.fzf/shell/key-bindings.zsh ] && source ~/.fzf/shell/key-bindings.zsh
+
+autoload -Uz compinit && compinit
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/bin/vault vault
+
+# Associate suffixes with handlers for their files
+autoload -U zsh-mime-setup
+zsh-mime-setup
+
+# Mass rename files
+autoload -U zmv
+
+# eval "$(starship init zsh)"
+# eval "$(pyenv virtualenv-init -)"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+source /home/oli/.config/broot/launcher/bash/br
+
+export GPG_TTY=$(tty)
+gpgconf --launch gpg-agent
+
+# eval "$(mcfly init zsh)"
+
+function zshaddhistory() {
+	echo "${1%%$'\n'}⋮${PWD}   " >> ~/.zsh_history_ext
+}
+
+test -r "~/.dir_colors" && eval $(dircolors ~/.dir_colors)
+
+eval "$(direnv hook zsh)"
