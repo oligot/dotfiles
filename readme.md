@@ -1,3 +1,3 @@
 # dotfiles
 
->  Personnal dotfiles
+>  Personal dotfiles
