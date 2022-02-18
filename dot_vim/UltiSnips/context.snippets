@@ -1,0 +1,33 @@
+snippet s "Section" b
+\startsection[title=\{${1:title}\}]
+${2:${VISUAL}}
+\stopsection
+endsnippet
+
+snippet ss "Subsection" b
+\startsubsection[title=\{${1:title}\}]
+${2:${VISUAL}}
+\stopsubsection
+endsnippet
+
+snippet enum "Enumerate" b
+\startitemize[n]
+	\item ${0:${VISUAL}}
+\stopitemize
+endsnippet
+
+snippet item "Itemize" b
+\startitemize
+	\item ${0:${VISUAL}}
+\stopitemize
+endsnippet
+
+snippet it "Individual item" b
+\item ${0:${VISUAL}}
+endsnippet
+
+snippet fig "External figure" b
+\startplacefigure
+	\externalfigure[${1:${VISUAL}}][$2]
+\stopplacefigure
+endsnippet
