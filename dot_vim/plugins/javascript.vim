@@ -12,6 +12,6 @@ let g:javascript_conceal_return = "<"
 let g:javascript_conceal_prototype = "#"
 
 "Vue
-autocmd BufRead,BufNewFile *.vue setlocal filetype=vue.html.javascript
+" autocmd BufRead,BufNewFile *.vue setlocal filetype=vue.html.javascript
 autocmd BufRead,BufNewFile *.vue syntax sync fromstart
 let g:vue_pre_processors = ['scss', 'typescript']

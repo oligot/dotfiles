@@ -33,6 +33,7 @@
 [diff]
     compactionHeuristic = true
     colorMoved = zebra
+	submodule = log
 [fetch]
     prune = true
 [filter "lfs"]
