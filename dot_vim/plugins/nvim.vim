@@ -53,3 +53,6 @@ Plug 'folke/trouble.nvim'
 
 " Improve the default vim.ui interfaces 
 Plug 'stevearc/dressing.nvim'
+
+" visualise and resolve merge conflicts
+Plug 'akinsho/git-conflict.nvim'

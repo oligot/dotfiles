@@ -4,3 +4,10 @@ if not status_ok then
 end
 
 gitsigns.setup()
+
+local conflictstatus_ok, gitconflict = pcall(require, "git-conflict")
+if not conflictstatus_ok then
+	return
+end
+
+gitconflict.setup()

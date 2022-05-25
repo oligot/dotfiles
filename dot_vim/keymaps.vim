@@ -16,9 +16,11 @@ map <leader>s :source ~/.vimrc<cr>
 map <leader>e :e! ~/.vimrc<cr>
 
 "Buffers
+command Bd :up | %bd | e#
 nnoremap <silent> <leader>d :bdelete<CR>
 nnoremap <leader>, <C-^>
 map <leader>Q :bufdo bdelete<cr>
+map <leader>D :Bd<cr>
 
 " Allow gf to open non-existent files
 map gf :edit <cfile><cr>

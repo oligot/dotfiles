@@ -16,7 +16,7 @@ lualine.setup({
 	},
 	sections = {
 		lualine_c = {
-			'filename',
+			{'filename', path = 3},
 			{ gps.get_location, cond = gps.is_available },
 		},
 	},
