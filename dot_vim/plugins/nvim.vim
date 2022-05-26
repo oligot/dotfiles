@@ -17,6 +17,7 @@ Plug 'numToStr/Comment.nvim'
 
 " Git
 Plug 'lewis6991/gitsigns.nvim'
+Plug 'akinsho/git-conflict.nvim'
 
 " Telescope
 Plug 'nvim-telescope/telescope.nvim'
@@ -52,7 +53,9 @@ Plug 'rafamadriz/friendly-snippets' " a bunch of snippets to use
 Plug 'folke/trouble.nvim'
 
 " Improve the default vim.ui interfaces 
-Plug 'stevearc/dressing.nvim'
+Plug 'nvim-telescope/telescope-ui-select.nvim'
 
-" visualise and resolve merge conflicts
-Plug 'akinsho/git-conflict.nvim'
+" Debug Adapter Protocol
+Plug 'mfussenegger/nvim-dap'
+Plug 'rcarriga/nvim-dap-ui'
+Plug 'mfussenegger/nvim-jdtls'

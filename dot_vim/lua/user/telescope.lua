@@ -22,9 +22,17 @@ telescope.setup({
 			},
 		},
 	},
+	extensions = {
+		["ui-select"] = {
+			require("telescope.themes").get_dropdown {
+				-- even more opts
+			}
+		}
+	},
 })
 
 telescope.load_extension('fzf')
+telescope.load_extension("ui-select")
 
 local opts = { noremap = true, silent = true }
 
