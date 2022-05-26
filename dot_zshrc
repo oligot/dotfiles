@@ -124,6 +124,7 @@ alias yupi='yarn upgrade-interactive --latest'
 alias -g L='| less'
 alias -g G='| grep'
 alias -g P='| python -m json.tool'
+alias -g X='| xclip -sel clip'
 
 function mingz () { curl -sL wzrd.in/standalone/"$1"|uglifyjs -mc 2>/dev/null|gzip -c|wc -c;}
 
