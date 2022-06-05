@@ -58,4 +58,5 @@ Plug 'nvim-telescope/telescope-ui-select.nvim'
 " Debug Adapter Protocol
 Plug 'mfussenegger/nvim-dap'
 Plug 'rcarriga/nvim-dap-ui'
+Plug 'leoluz/nvim-dap-go'
 Plug 'mfussenegger/nvim-jdtls'

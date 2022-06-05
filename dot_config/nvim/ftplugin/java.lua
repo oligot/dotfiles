@@ -78,14 +78,7 @@ local config = {
     workspace_dir,
   },
 
-  on_attach = function(client, bufnr)
-    -- With `hotcodereplace = 'auto' the debug adapter will try to apply code changes
-    -- you make during a debug session immediately.
-    -- Remove the option if you do not want that.
-    jdtls.setup_dap({ hotcodereplace = 'auto' })
-    require("jdtls.dap").setup_dap_main_class_configs()
-  end,
-  -- on_attach = require("user.lsp.handlers").on_attach,
+  on_attach = require("user.lsp").on_attach,
   -- capabilities = require("user.lsp.handlers").capabilities,
 
   -- 💀

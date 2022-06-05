@@ -22,6 +22,11 @@ dap.listeners.before.event_exited["dapui_config"] = function()
   dapui.close()
 end
 
+local status_ok, dapgo = pcall(require, 'dap-go')
+if status_ok then
+  dapgo.setup()
+end
+
 local keymap = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
 

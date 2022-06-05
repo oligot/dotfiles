@@ -1,3 +1,5 @@
+local M = {}
+
 local status_ok, lsp_installer = pcall(require, "nvim-lsp-installer")
 if not status_ok then
 	return
@@ -55,10 +57,10 @@ local function lsp_highlight_document(client)
 	end
 end
 
-local function on_attach(client, bufnr)
+M.on_attach = function(client, bufnr)
 	local null_ls_formatting = {
 		["gopls"] = true,
-		["jdtls"] = true,
+		["jdt.ls"] = true,
 		["jsonls"] = true,
 		["sqls" ]= true,
 		["volar"] = true,
@@ -68,6 +70,14 @@ local function on_attach(client, bufnr)
 		-- Use null-ls to format the code
 		client.resolved_capabilities.document_formatting = false
 	end
+
+  if client.name == "jdt.ls" then
+		-- With `hotcodereplace = 'auto' the debug adapter will try to apply code changes
+		-- you make during a debug session immediately.
+		-- Remove the option if you do not want that.
+    require("jdtls").setup_dap { hotcodereplace = "auto" }
+    require("jdtls.dap").setup_dap_main_class_configs()
+  end
 
 	if client.name == "gopls" then
 		vim.cmd([[
@@ -124,7 +134,7 @@ lsp_installer.on_server_ready(function(server)
 
 	-- Specify the default options which we'll use to setup all servers
 	local opts = {
-		on_attach = on_attach,
+		on_attach = M.on_attach,
 		capabilities = capabilities,
 	}
 
@@ -199,3 +209,5 @@ local function setup()
 end
 
 setup()
+
+return M
