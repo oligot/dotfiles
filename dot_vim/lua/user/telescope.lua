@@ -33,6 +33,8 @@ telescope.setup({
 
 telescope.load_extension('fzf')
 telescope.load_extension("ui-select")
+telescope.load_extension("live_grep_args")
+telescope.load_extension("file_browser")
 
 local opts = { noremap = true, silent = true }
 
@@ -43,9 +45,11 @@ local keymap = vim.api.nvim_set_keymap
 keymap("n", "<C-p>", "<cmd>Telescope git_files<cr>", opts)
 keymap("n", "<leader>v", "<cmd>Telescope oldfiles<cr>", opts)
 keymap("n", "<leader>ff", "<cmd>Telescope find_files<cr>", opts)
+keymap("n", "<leader>fb", "<cmd>Telescope file_browser<cr>", opts)
 -- Grep
 keymap("n", "<leader>rg", "<cmd>Telescope live_grep<cr>", opts)
 keymap("n", "<leader>*", "<cmd>Telescope grep_string<cr>", opts)
+keymap("n", "<leader>fg", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>", opts)
 -- Buffers
 keymap("n", "<leader><space>", "<cmd>Telescope buffers<cr>", opts)
 -- Git

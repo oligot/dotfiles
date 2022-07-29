@@ -18,6 +18,7 @@ null_ls.setup({
 		formatting.pg_format,
 		formatting.prettier,
 		formatting.google_java_format,
+		formatting.shfmt,
 		diagnostics.golangci_lint.with({
 			args = { "run", "--fix=false", "--out-format=json", "$DIRNAME", "--path-prefix", "$ROOT" },
 		}),

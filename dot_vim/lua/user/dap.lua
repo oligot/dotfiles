@@ -22,6 +22,9 @@ dap.listeners.before.event_exited["dapui_config"] = function()
   dapui.close()
 end
 
+local dapvt = require("nvim-dap-virtual-text")
+dapvt.setup()
+
 local status_ok, dapgo = pcall(require, 'dap-go')
 if status_ok then
   dapgo.setup()

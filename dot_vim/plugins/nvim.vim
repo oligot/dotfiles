@@ -22,6 +22,9 @@ Plug 'akinsho/git-conflict.nvim'
 " Telescope
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+Plug 'nvim-telescope/telescope-live-grep-args.nvim'
+Plug 'nvim-telescope/telescope-file-browser.nvim'
+Plug 'nvim-telescope/telescope-ui-select.nvim' " Improve the default vim.ui interfaces 
 
 " Tree
 Plug 'kyazdani42/nvim-tree.lua'
@@ -52,11 +55,9 @@ Plug 'rafamadriz/friendly-snippets' " a bunch of snippets to use
 " Trouble
 Plug 'folke/trouble.nvim'
 
-" Improve the default vim.ui interfaces 
-Plug 'nvim-telescope/telescope-ui-select.nvim'
-
 " Debug Adapter Protocol
 Plug 'mfussenegger/nvim-dap'
 Plug 'rcarriga/nvim-dap-ui'
+Plug 'theHamsta/nvim-dap-virtual-text'
 Plug 'leoluz/nvim-dap-go'
 Plug 'mfussenegger/nvim-jdtls'

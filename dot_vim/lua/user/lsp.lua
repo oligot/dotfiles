@@ -59,6 +59,7 @@ end
 
 M.on_attach = function(client, bufnr)
 	local null_ls_formatting = {
+		["bashls"] = true,
 		["gopls"] = true,
 		["jdt.ls"] = true,
 		["jsonls"] = true,
@@ -190,6 +191,7 @@ local function setup()
 
 	-- Automatically install LSP servers
 	local servers = {
+		"bashls",
 		"gopls",
 		-- "jdtls",
 		"jsonls",
