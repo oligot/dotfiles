@@ -1,6 +1,14 @@
 local M = {}
 
-local status_ok, lsp_installer = pcall(require, "nvim-lsp-installer")
+local status_ok, lspconfig = pcall(require, "lspconfig")
+if not status_ok then
+	return
+end
+local status_ok, mason = pcall(require, "mason")
+if not status_ok then
+	return
+end
+local status_ok, mason_lspconfig = pcall(require, "mason-lspconfig")
 if not status_ok then
 	return
 end
@@ -10,9 +18,9 @@ local function lsp_keymaps(bufnr)
 	local keymap = vim.api.nvim_set_keymap
 	local bufkeymap = vim.api.nvim_buf_set_keymap
 	local opts = { noremap = true, silent = true }
-	keymap("n", "<space>e", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
-	keymap("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
-	keymap("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
+	keymap("n", "<leader>e", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
+	keymap("n", "<leader>dn", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
+	keymap("n", "<leader>dp", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
 	-- keymap("n", "<space>q", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
 
 	-- Enable completion triggered by <c-x><c-o>
@@ -100,52 +108,76 @@ M.on_attach = function(client, bufnr)
 	lsp_highlight_document(client)
 end
 
-local enhance_server_opts = {
-	-- Provide settings that should only apply to the "jsonls" server
-	["jsonls"] = function(opts)
-		opts.settings = {
-			json = {
-				schemas = require("schemastore").json.schemas(),
-			},
-		}
-	end,
-	-- Provide settings that should only apply to the "sumneko_lua" server
-	["sumneko_lua"] = function(opts)
-		opts.settings = {
-			Lua = {
-				diagnostics = {
-					globals = { "vim" },
-				},
-			},
-		}
-	end,
-	-- Provide settings that should only apply to the "jdtls" server
-	["jdtls"] = function(opts)
-		opts.autostart = false
-	end,
-}
-
-lsp_installer.on_server_ready(function(server)
+local function get_capabilities()
 	local capabilities = vim.lsp.protocol.make_client_capabilities()
 
 	local ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
 	if ok then
 		capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
 	end
+	return capabilities
+end
 
-	-- Specify the default options which we'll use to setup all servers
-	local opts = {
-		on_attach = M.on_attach,
-		capabilities = capabilities,
-	}
+-- Bash
+lspconfig.bashls.setup{
+	on_attach = M.on_attach,
+	capabilities = get_capabilities(),
+}
 
-	if enhance_server_opts[server.name] then
-		-- Enhance the default opts with the server-specific ones
-		enhance_server_opts[server.name](opts)
-	end
+-- Golang
+lspconfig.gopls.setup{
+	on_attach = M.on_attach,
+	capabilities = get_capabilities(),
+}
 
-	server:setup(opts)
-end)
+-- Java
+lspconfig.jdtls.setup {
+	on_attach = M.on_attach,
+	capabilities = get_capabilities(),
+	-- autostart = false,
+}
+
+-- JSON
+lspconfig.jsonls.setup {
+	on_attach = M.on_attach,
+	capabilities = get_capabilities(),
+	settings = {
+		json = {
+			schemas = require("schemastore").json.schemas(),
+		},
+	},
+}
+
+-- Python
+lspconfig.pylsp.setup{
+	on_attach = M.on_attach,
+	capabilities = get_capabilities(),
+}
+
+-- SQL
+lspconfig.sqls.setup{
+	on_attach = M.on_attach,
+	capabilities = get_capabilities(),
+}
+
+-- Lua
+lspconfig.sumneko_lua.setup {
+	on_attach = M.on_attach,
+	capabilities = get_capabilities(),
+	settings = {
+		Lua = {
+			diagnostics = {
+				globals = { "vim" },
+			},
+		},
+	},
+}
+
+-- Vue.js
+lspconfig.volar.setup{
+	on_attach = M.on_attach,
+	capabilities = get_capabilities(),
+}
 
 local function setup()
 	local signs = {
@@ -189,11 +221,10 @@ local function setup()
 		border = "rounded",
 	})
 
-	-- Automatically install LSP servers
-	local servers = {
+	local ensure_installed = {
 		"bashls",
 		"gopls",
-		-- "jdtls",
+		"jdtls",
 		"jsonls",
 		"pylsp",
 		"sqls",
@@ -201,13 +232,10 @@ local function setup()
 		"volar",
 	}
 
-	for _, name in pairs(servers) do
-		local server_is_found, server = lsp_installer.get_server(name)
-		if server_is_found and not server:is_installed() then
-			print("Installing " .. name)
-			server:install()
-		end
-	end
+	mason.setup()
+	mason_lspconfig.setup {
+		ensure_installed = ensure_installed,
+	}
 end
 
 setup()

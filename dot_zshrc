@@ -53,6 +53,7 @@ fi
 export PATH="$N_PREFIX/bin:$PATH:$HOME/bin:/usr/local/bin:$GOPATH/bin:$HOME/.local/bin:$HOME/.cargo/bin:$HOME/.fzf/bin"
 export N_PREFIX="$HOME/n"
 export GOPATH=$HOME/go
+export JDTLS_HOME=$HOME/.local/share/nvim/mason/packages/jdtls
 export MANPATH=$MANPATH:/usr/local/share/man
 # export MANPATH="/usr/local/man:$MANPATH"
 
