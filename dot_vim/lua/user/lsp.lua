@@ -108,7 +108,7 @@ M.on_attach = function(client, bufnr)
 	lsp_highlight_document(client)
 end
 
-local function get_capabilities()
+M.get_capabilities = function()
 	local capabilities = vim.lsp.protocol.make_client_capabilities()
 
 	local ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
@@ -121,26 +121,26 @@ end
 -- Bash
 lspconfig.bashls.setup{
 	on_attach = M.on_attach,
-	capabilities = get_capabilities(),
+	capabilities = M.get_capabilities(),
 }
 
 -- Golang
 lspconfig.gopls.setup{
 	on_attach = M.on_attach,
-	capabilities = get_capabilities(),
+	capabilities = M.get_capabilities(),
 }
 
 -- Java
 lspconfig.jdtls.setup {
-	on_attach = M.on_attach,
-	capabilities = get_capabilities(),
-	-- autostart = false,
+	-- on_attach = M.on_attach,
+	-- capabilities = M.get_capabilities(),
+	autostart = false,
 }
 
 -- JSON
 lspconfig.jsonls.setup {
 	on_attach = M.on_attach,
-	capabilities = get_capabilities(),
+	capabilities = M.get_capabilities(),
 	settings = {
 		json = {
 			schemas = require("schemastore").json.schemas(),
@@ -151,19 +151,19 @@ lspconfig.jsonls.setup {
 -- Python
 lspconfig.pylsp.setup{
 	on_attach = M.on_attach,
-	capabilities = get_capabilities(),
+	capabilities = M.get_capabilities(),
 }
 
 -- SQL
 lspconfig.sqls.setup{
 	on_attach = M.on_attach,
-	capabilities = get_capabilities(),
+	capabilities = M.get_capabilities(),
 }
 
 -- Lua
 lspconfig.sumneko_lua.setup {
 	on_attach = M.on_attach,
-	capabilities = get_capabilities(),
+	capabilities = M.get_capabilities(),
 	settings = {
 		Lua = {
 			diagnostics = {
@@ -176,7 +176,7 @@ lspconfig.sumneko_lua.setup {
 -- Vue.js
 lspconfig.volar.setup{
 	on_attach = M.on_attach,
-	capabilities = get_capabilities(),
+	capabilities = M.get_capabilities(),
 }
 
 local function setup()
