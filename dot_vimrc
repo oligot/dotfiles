@@ -237,6 +237,7 @@ set complete+=kspell
 autocmd FileType context setlocal spell spelllang=en,fr
 autocmd FileType gitcommit setlocal spell
 autocmd BufRead,BufNewFile *.md setlocal spell spelllang=en,fr
+autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
 
 
 "Access man pages
