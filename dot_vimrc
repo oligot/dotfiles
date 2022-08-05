@@ -176,15 +176,17 @@ endif
 call plug#begin('~/.vim/plugged')
 " source ~/.vim/plugins/choosewin.vim
 source ~/.vim/plugins/abolish.vim
+source ~/.vim/plugins/confluence.vim
 source ~/.vim/plugins/dispatch.vim
 source ~/.vim/plugins/editorconfig.vim
 source ~/.vim/plugins/emmet.vim
 source ~/.vim/plugins/expand-region.vim
 source ~/.vim/plugins/fugitive.vim
+source ~/.vim/plugins/ghost.vim
 source ~/.vim/plugins/git.vim
 source ~/.vim/plugins/incsearch.vim
 source ~/.vim/plugins/javascript.vim
-source ~/.vim/plugins/markdown-preview.vim
+source ~/.vim/plugins/markdown.vim
 source ~/.vim/plugins/matchup.vim
 source ~/.vim/plugins/maximizer.vim
 source ~/.vim/plugins/mkdir.vim

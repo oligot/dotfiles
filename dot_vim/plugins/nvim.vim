@@ -9,6 +9,7 @@ Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'jose-elias-alvarez/null-ls.nvim'
 Plug 'b0o/schemastore.nvim'
 Plug 'simrat39/symbols-outline.nvim'
+Plug 'onsails/lspkind.nvim'
 
 " Treesitter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -45,9 +46,9 @@ Plug 'hrsh7th/nvim-cmp' " The completion plugin
 Plug 'hrsh7th/cmp-buffer' " buffer completions
 Plug 'hrsh7th/cmp-path' " path completions
 Plug 'hrsh7th/cmp-cmdline' " cmdline completions
-Plug 'saadparwaiz1/cmp_luasnip' " snippet completions
-Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-nvim-lua'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'saadparwaiz1/cmp_luasnip' " snippet completions
 
 " snippets
 Plug 'L3MON4D3/LuaSnip' " snippet engine
