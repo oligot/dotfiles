@@ -71,6 +71,7 @@ M.on_attach = function(client, bufnr)
 		["gopls"] = true,
 		["jdt.ls"] = true,
 		["jsonls"] = true,
+		["pylsp" ]= true,
 		["sqls" ]= true,
 		["volar"] = true,
 	}
