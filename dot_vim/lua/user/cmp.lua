@@ -15,8 +15,6 @@ end
 
 lspkind.init()
 
-require("luasnip/loaders/from_vscode").lazy_load()
-
 cmp.setup({
 	mapping = {
     ["<C-n>"] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
