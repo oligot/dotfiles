@@ -4,12 +4,12 @@ local status_ok, lspconfig = pcall(require, "lspconfig")
 if not status_ok then
 	return
 end
-local status_ok, mason = pcall(require, "mason")
-if not status_ok then
+local mason_status_ok, mason = pcall(require, "mason")
+if not mason_status_ok then
 	return
 end
-local status_ok, mason_lspconfig = pcall(require, "mason-lspconfig")
-if not status_ok then
+local masonlsp_status_ok, mason_lspconfig = pcall(require, "mason-lspconfig")
+if not masonlsp_status_ok then
 	return
 end
 
@@ -35,13 +35,7 @@ local function lsp_keymaps(bufnr)
 	-- bufkeymap(bufnr, 'n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
 	bufkeymap(bufnr, "n", "<space>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", opts)
 	bufkeymap(bufnr, "n", "<space>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", opts)
-	bufkeymap(
-		bufnr,
-		"n",
-		"<space>wl",
-		"<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>",
-		opts
-	)
+	bufkeymap(bufnr, "n", "<space>wl", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", opts)
 	bufkeymap(bufnr, "n", "<space>D", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
 	bufkeymap(bufnr, "n", "<space>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
 	bufkeymap(bufnr, "n", "<space>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
@@ -71,8 +65,9 @@ M.on_attach = function(client, bufnr)
 		["gopls"] = true,
 		["jdt.ls"] = true,
 		["jsonls"] = true,
-		["pylsp" ]= true,
-		["sqls" ]= true,
+		["pylsp"] = true,
+		["sqls"] = true,
+		["sumneko_lua"] = true,
 		["volar"] = true,
 	}
 
@@ -81,13 +76,13 @@ M.on_attach = function(client, bufnr)
 		client.resolved_capabilities.document_formatting = false
 	end
 
-  if client.name == "jdt.ls" then
+	if client.name == "jdt.ls" then
 		-- With `hotcodereplace = 'auto' the debug adapter will try to apply code changes
 		-- you make during a debug session immediately.
 		-- Remove the option if you do not want that.
-    require("jdtls").setup_dap { hotcodereplace = "auto" }
-    require("jdtls.dap").setup_dap_main_class_configs()
-  end
+		require("jdtls").setup_dap({ hotcodereplace = "auto" })
+		require("jdtls.dap").setup_dap_main_class_configs()
+	end
 
 	if client.name == "gopls" then
 		vim.cmd([[
@@ -120,26 +115,26 @@ M.get_capabilities = function()
 end
 
 -- Bash
-lspconfig.bashls.setup{
+lspconfig.bashls.setup({
 	on_attach = M.on_attach,
 	capabilities = M.get_capabilities(),
-}
+})
 
 -- Golang
-lspconfig.gopls.setup{
+lspconfig.gopls.setup({
 	on_attach = M.on_attach,
 	capabilities = M.get_capabilities(),
-}
+})
 
 -- Java
-lspconfig.jdtls.setup {
+lspconfig.jdtls.setup({
 	-- on_attach = M.on_attach,
 	-- capabilities = M.get_capabilities(),
 	autostart = false,
-}
+})
 
 -- JSON
-lspconfig.jsonls.setup {
+lspconfig.jsonls.setup({
 	on_attach = M.on_attach,
 	capabilities = M.get_capabilities(),
 	settings = {
@@ -147,38 +142,38 @@ lspconfig.jsonls.setup {
 			schemas = require("schemastore").json.schemas(),
 		},
 	},
-}
+})
 
 -- Python
-lspconfig.pylsp.setup{
+lspconfig.pylsp.setup({
 	on_attach = M.on_attach,
 	capabilities = M.get_capabilities(),
-}
+})
 
 -- SQL
-lspconfig.sqls.setup{
+lspconfig.sqls.setup({
 	on_attach = M.on_attach,
 	capabilities = M.get_capabilities(),
-}
+})
 
 -- Lua
-lspconfig.sumneko_lua.setup {
-	on_attach = M.on_attach,
-	capabilities = M.get_capabilities(),
-	settings = {
-		Lua = {
-			diagnostics = {
-				globals = { "vim" },
-			},
-		},
+local luadev_ok, luadev = pcall(require, "lua-dev")
+if not luadev_ok then
+	return
+end
+local lua_setup = luadev.setup({
+	lspconfig = {
+		on_attach = M.on_attach,
+		capabilities = M.get_capabilities(),
 	},
-}
+})
+lspconfig.sumneko_lua.setup(lua_setup)
 
 -- Vue.js
-lspconfig.volar.setup{
+lspconfig.volar.setup({
 	on_attach = M.on_attach,
 	capabilities = M.get_capabilities(),
-}
+})
 
 local function setup()
 	local signs = {
@@ -234,9 +229,9 @@ local function setup()
 	}
 
 	mason.setup()
-	mason_lspconfig.setup {
+	mason_lspconfig.setup({
 		ensure_installed = ensure_installed,
-	}
+	})
 end
 
 setup()

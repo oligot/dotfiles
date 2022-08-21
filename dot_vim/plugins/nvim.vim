@@ -63,3 +63,12 @@ Plug 'rcarriga/nvim-dap-ui'
 Plug 'theHamsta/nvim-dap-virtual-text'
 Plug 'leoluz/nvim-dap-go'
 Plug 'mfussenegger/nvim-jdtls'
+
+" Bufferline
+" Plug 'akinsho/bufferline.nvim', { 'tag': 'v2.*' }
+
+" Lua dev
+Plug 'folke/lua-dev.nvim'
+
+" todo comments
+Plug 'folke/todo-comments.nvim'
