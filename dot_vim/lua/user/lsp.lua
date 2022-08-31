@@ -12,6 +12,10 @@ local masonlsp_status_ok, mason_lspconfig = pcall(require, "mason-lspconfig")
 if not masonlsp_status_ok then
 	return
 end
+local fidget_status_ok, fidget = pcall(require, "fidget")
+if not fidget_status_ok then
+	return
+end
 
 local function lsp_keymaps(bufnr)
 	-- See `:help vim.diagnostic.*` for documentation on any of the below functions
@@ -232,6 +236,8 @@ local function setup()
 	mason_lspconfig.setup({
 		ensure_installed = ensure_installed,
 	})
+
+	fidget.setup()
 end
 
 setup()

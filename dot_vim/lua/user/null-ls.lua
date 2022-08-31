@@ -23,6 +23,7 @@ null_ls.setup({
 		diagnostics.golangci_lint.with({
 			args = { "run", "--fix=false", "--out-format=json", "$DIRNAME", "--path-prefix", "$ROOT" },
 		}),
+		diagnostics.vale,
 		code_actions.gitsigns,
 	},
 })

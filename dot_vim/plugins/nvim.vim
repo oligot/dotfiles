@@ -10,6 +10,7 @@ Plug 'jose-elias-alvarez/null-ls.nvim'
 Plug 'b0o/schemastore.nvim'
 Plug 'simrat39/symbols-outline.nvim'
 Plug 'onsails/lspkind.nvim'
+Plug 'j-hui/fidget.nvim'
 
 " Treesitter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -20,6 +21,7 @@ Plug 'numToStr/Comment.nvim'
 " Git
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'akinsho/git-conflict.nvim'
+Plug 'sindrets/diffview.nvim'
 
 " Telescope
 Plug 'nvim-telescope/telescope.nvim'
@@ -72,3 +74,9 @@ Plug 'folke/lua-dev.nvim'
 
 " todo comments
 Plug 'folke/todo-comments.nvim'
+
+" Markdown preview
+Plug 'ellisonleao/glow.nvim'
+
+" Local Config
+Plug 'MunifTanjim/exrc.nvim'
