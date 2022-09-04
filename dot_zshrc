@@ -30,6 +30,7 @@ zplug "plugins/command-not-found", from:oh-my-zsh
 zplug "plugins/terraform", from:oh-my-zsh
 zplug "romkatv/powerlevel10k", as:theme, depth:1
 zplug "wfxr/forgit"
+zplug "bigH/git-fuzzy", as:command, use:"bin/git-fuzzy"
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
