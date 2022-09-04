@@ -11,6 +11,7 @@ Plug 'b0o/schemastore.nvim'
 Plug 'simrat39/symbols-outline.nvim'
 Plug 'onsails/lspkind.nvim'
 Plug 'j-hui/fidget.nvim'
+Plug 'https://git.sr.ht/~whynothugo/lsp_lines.nvim'
 
 " Treesitter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -38,7 +39,7 @@ Plug 'windwp/nvim-autopairs'
 
 " Statusline
 Plug 'nvim-lualine/lualine.nvim'
-Plug 'SmiteshP/nvim-gps'
+Plug 'SmiteshP/nvim-navic'
 
 " SQL
 Plug 'nanotee/sqls.nvim'
@@ -51,6 +52,7 @@ Plug 'hrsh7th/cmp-cmdline' " cmdline completions
 Plug 'hrsh7th/cmp-nvim-lua'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'saadparwaiz1/cmp_luasnip' " snippet completions
+Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
 
 " snippets
 Plug 'L3MON4D3/LuaSnip' " snippet engine

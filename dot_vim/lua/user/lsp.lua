@@ -16,6 +16,14 @@ local fidget_status_ok, fidget = pcall(require, "fidget")
 if not fidget_status_ok then
 	return
 end
+local navic_status_ok, navic = pcall(require, "nvim-navic")
+if not navic_status_ok then
+	return
+end
+local lsplines_status_ok, lsplines = pcall(require, "lsp_lines")
+if not lsplines_status_ok then
+	return
+end
 
 local function lsp_keymaps(bufnr)
 	-- See `:help vim.diagnostic.*` for documentation on any of the below functions
@@ -26,6 +34,7 @@ local function lsp_keymaps(bufnr)
 	keymap("n", "<leader>dn", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
 	keymap("n", "<leader>dp", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
 	-- keymap("n", "<space>q", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
+	vim.keymap.set("", "<Leader>l", require("lsp_lines").toggle, { desc = "Toggle lsp_lines" })
 
 	-- Enable completion triggered by <c-x><c-o>
 	vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
@@ -103,6 +112,7 @@ M.on_attach = function(client, bufnr)
 			sqls.on_attach(client, bufnr)
 		end
 	end
+	navic.attach(client, bufnr)
 
 	lsp_keymaps(bufnr)
 	lsp_highlight_document(client)
@@ -179,6 +189,19 @@ lspconfig.volar.setup({
 	capabilities = M.get_capabilities(),
 })
 
+-- Yaml
+lspconfig.yamlls.setup({
+	on_attach = M.on_attach,
+	capabilities = M.get_capabilities(),
+	settings = {
+    yaml = {
+      schemas = {
+        -- ["https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/schemas/v3.1/schema.json"] = "*-api-*.yaml"
+      },
+    },
+  }
+})
+
 local function setup()
 	local signs = {
 		{ name = "DiagnosticSignError", text = "" },
@@ -192,7 +215,7 @@ local function setup()
 	end
 
 	local config = {
-		-- disable virtual text
+		-- disable virtual text since it's redundant due to lsp_lines
 		virtual_text = false,
 		-- show signs
 		signs = {
@@ -230,6 +253,7 @@ local function setup()
 		"sqls",
 		"sumneko_lua",
 		"volar",
+		"yaml-language-server",
 	}
 
 	mason.setup()
@@ -238,6 +262,7 @@ local function setup()
 	})
 
 	fidget.setup()
+	lsplines.setup()
 end
 
 setup()
