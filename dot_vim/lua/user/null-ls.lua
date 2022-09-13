@@ -20,11 +20,12 @@ null_ls.setup({
 		formatting.google_java_format,
 		formatting.shfmt,
 		formatting.black,
+		formatting.xmllint,
 		diagnostics.golangci_lint.with({
 			args = { "run", "--fix=false", "--out-format=json", "$DIRNAME", "--path-prefix", "$ROOT" },
 		}),
 		diagnostics.vale,
-		-- diagnostics.yamllint,
+		diagnostics.yamllint,
 		code_actions.gitsigns,
 	},
 })

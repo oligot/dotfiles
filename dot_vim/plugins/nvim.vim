@@ -82,3 +82,6 @@ Plug 'ellisonleao/glow.nvim'
 
 " Local Config
 Plug 'MunifTanjim/exrc.nvim'
+
+" Embed Neovim in Chrome, Firefox, Thunderbird & others
+Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }

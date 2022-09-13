@@ -78,6 +78,7 @@ M.on_attach = function(client, bufnr)
 		["gopls"] = true,
 		["jdt.ls"] = true,
 		["jsonls"] = true,
+		["lemminx"] = true,
 		["pylsp"] = true,
 		["sqls"] = true,
 		["sumneko_lua"] = true,
@@ -112,7 +113,9 @@ M.on_attach = function(client, bufnr)
 			sqls.on_attach(client, bufnr)
 		end
 	end
-	navic.attach(client, bufnr)
+	if client.name ~= "bashls" then
+		navic.attach(client, bufnr)
+	end
 
 	lsp_keymaps(bufnr)
 	lsp_highlight_document(client)
@@ -202,6 +205,12 @@ lspconfig.yamlls.setup({
   }
 })
 
+-- XML
+lspconfig.lemminx.setup({
+	on_attach = M.on_attach,
+	capabilities = M.get_capabilities(),
+})
+
 local function setup()
 	local signs = {
 		{ name = "DiagnosticSignError", text = "" },
@@ -215,8 +224,9 @@ local function setup()
 	end
 
 	local config = {
-		-- disable virtual text since it's redundant due to lsp_lines
+		-- disable virtual text
 		virtual_text = false,
+		virtual_lines = false,
 		-- show signs
 		signs = {
 			active = signs,
@@ -249,6 +259,7 @@ local function setup()
 		"gopls",
 		"jdtls",
 		"jsonls",
+		"lemminx",
 		"pylsp",
 		"sqls",
 		"sumneko_lua",
