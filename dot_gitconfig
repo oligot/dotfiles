@@ -10,12 +10,13 @@
 [push]
     default = simple
     followTags = true
+    autoSetupRemote = true
 [merge]
     tool = vimdiff
 
     # Standard diff is two sets of final changes. This introduces the original text before each side's changes.
     # https://git-scm.com/docs/git-config#git-config-mergeconflictStyle
-    conflictstyle = diff3
+    conflictStyle = zdiff3
 [status]
     showUntrackedFiles = all
 [color]
