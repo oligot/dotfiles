@@ -15,3 +15,10 @@ gitconflict.setup()
 local opts = { noremap = true, silent = true }
 vim.api.nvim_set_keymap("n", "<leader>do", "<cmd>DiffviewOpen<cr>", opts)
 vim.api.nvim_set_keymap("n", "<leader>dc", "<cmd>DiffviewClose<cr>", opts)
+
+local gitlinker_ok, gitlinker = pcall(require, "gitlinker")
+if not gitlinker_ok then
+	return
+end
+
+gitlinker.setup()

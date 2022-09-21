@@ -23,6 +23,7 @@ Plug 'numToStr/Comment.nvim'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'akinsho/git-conflict.nvim'
 Plug 'sindrets/diffview.nvim'
+Plug 'ruifm/gitlinker.nvim'
 
 " Telescope
 Plug 'nvim-telescope/telescope.nvim'
@@ -73,6 +74,9 @@ Plug 'mfussenegger/nvim-jdtls'
 
 " Lua dev
 Plug 'folke/lua-dev.nvim'
+
+" Gopher
+Plug 'olexsmir/gopher.nvim'
 
 " todo comments
 Plug 'folke/todo-comments.nvim'
