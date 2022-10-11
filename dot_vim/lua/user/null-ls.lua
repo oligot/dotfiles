@@ -13,19 +13,24 @@ local code_actions = null_ls.builtins.code_actions
 null_ls.setup({
 	debug = false,
 	sources = {
+		-- formatting
+		formatting.black,
 		formatting.goimports,
-		formatting.stylua,
+		formatting.google_java_format,
+		formatting.ktlint,
 		formatting.pg_format,
 		formatting.prettier,
-		formatting.google_java_format,
 		formatting.shfmt,
-		formatting.black,
+		formatting.stylua,
 		formatting.xmllint,
+		-- diagnostics
 		diagnostics.golangci_lint.with({
 			args = { "run", "--fix=false", "--out-format=json", "$DIRNAME", "--path-prefix", "$ROOT" },
 		}),
+		diagnostics.ktlint,
 		diagnostics.vale,
 		diagnostics.yamllint,
+		-- code actions
 		code_actions.gitsigns,
 	},
 })
