@@ -75,6 +75,7 @@ end
 M.on_attach = function(client, bufnr)
 	local null_ls_formatting = {
 		["bashls"] = true,
+		["cssls"] = true,
 		["gopls"] = true,
 		["jdt.ls"] = true,
 		["jsonls"] = true,
@@ -133,6 +134,12 @@ end
 
 -- Bash
 lspconfig.bashls.setup({
+	on_attach = M.on_attach,
+	capabilities = M.get_capabilities(),
+})
+
+-- CSS
+lspconfig.cssls.setup({
 	on_attach = M.on_attach,
 	capabilities = M.get_capabilities(),
 })
@@ -256,6 +263,7 @@ local function setup()
 
 	local ensure_installed = {
 		"bashls",
+		"cssls",
 		"gopls",
 		"jdtls",
 		"jsonls",
