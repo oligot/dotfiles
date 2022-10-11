@@ -89,3 +89,6 @@ Plug 'MunifTanjim/exrc.nvim'
 
 " Embed Neovim in Chrome, Firefox, Thunderbird & others
 Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
+
+" Autolist
+Plug 'gaoDean/autolist.nvim'

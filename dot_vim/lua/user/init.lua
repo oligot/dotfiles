@@ -1,3 +1,4 @@
+require("user.autolist")
 require("user.autopairs")
 -- require("user.bufferline")
 require("user.cmp")
