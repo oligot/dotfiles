@@ -53,3 +53,6 @@
 	markUnblamableLines = true
 [submodule]
 	recurse = true
+[rebase]
+	autosquash = true
+	updateRefs = true
