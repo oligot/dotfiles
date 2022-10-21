@@ -1,7 +1,6 @@
 require("user.autolist")
 require("user.autopairs")
--- require("user.bufferline")
-require("user.cmp")
+-- require("user.cmp")
 require("user.comment")
 require("user.dap")
 require("user.exrc")

@@ -1,24 +1,3 @@
-vim.g.nvim_tree_icons = {
-	default = "",
-	symlink = "",
-	git = {
-		unstaged = "",
-		staged = "S",
-		unmerged = "",
-		renamed = "➜",
-		deleted = "",
-		untracked = "U",
-		ignored = "◌",
-	},
-	folder = {
-		default = "",
-		open = "",
-		empty = "",
-		empty_open = "",
-		symlink = "",
-	},
-}
-
 local status_ok, nvim_tree = pcall(require, "nvim-tree")
 if not status_ok then
 	return
@@ -35,11 +14,7 @@ local tree_cb = nvim_tree_config.nvim_tree_callback
 nvim_tree.setup({
 	disable_netrw = true,
 	hijack_netrw = true,
-	update_cwd = true,
-	-- update_to_buf_dir = {
-	--   enable = true,
-	--   auto_open = true,
-	-- },
+	sync_root_with_cwd = true,
 	diagnostics = {
 		enable = true,
 		icons = {
@@ -49,6 +24,30 @@ nvim_tree.setup({
 			error = "",
 		},
 	},
+	renderer = {
+		icons = {
+			glyphs = {
+				default = "",
+				symlink = "",
+				git = {
+					unstaged = "",
+					staged = "S",
+					unmerged = "",
+					renamed = "➜",
+					deleted = "",
+					untracked = "U",
+					ignored = "◌",
+				},
+				folder = {
+					default = "",
+					open = "",
+					empty = "",
+					empty_open = "",
+					symlink = "",
+				},
+			},
+		},
+	},
 	update_focused_file = {
 		enable = true,
 		update_cwd = true,
@@ -56,10 +55,8 @@ nvim_tree.setup({
 	},
 	view = {
 		width = 30,
-		height = 30,
 		hide_root_folder = false,
 		side = "right",
-		auto_resize = true,
 		mappings = {
 			custom_only = false,
 			list = {
@@ -70,16 +67,6 @@ nvim_tree.setup({
 		},
 		number = false,
 		relativenumber = false,
-	},
-	git_hl = 1,
-	-- disable_window_picker = 0,
-	-- root_folder_modifier = ":t",
-	show_icons = {
-		git = 1,
-		folders = 1,
-		files = 1,
-		folder_arrows = 1,
-		-- tree_width = 30,
 	},
 })
 

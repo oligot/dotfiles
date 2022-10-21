@@ -1,6 +1,6 @@
 " Dependencies
 Plug 'nvim-lua/plenary.nvim'
-Plug 'kyazdani42/nvim-web-devicons'
+Plug 'nvim-tree/nvim-web-devicons'
 
 " LSP
 Plug 'neovim/nvim-lspconfig'
@@ -33,7 +33,7 @@ Plug 'nvim-telescope/telescope-file-browser.nvim'
 Plug 'nvim-telescope/telescope-ui-select.nvim' " Improve the default vim.ui interfaces 
 
 " Tree
-Plug 'kyazdani42/nvim-tree.lua'
+Plug 'nvim-tree/nvim-tree.lua'
 
 " Autopair
 Plug 'windwp/nvim-autopairs'
@@ -73,7 +73,7 @@ Plug 'mfussenegger/nvim-jdtls'
 " Plug 'akinsho/bufferline.nvim', { 'tag': 'v2.*' }
 
 " Lua dev
-Plug 'folke/lua-dev.nvim'
+Plug 'folke/neodev.nvim'
 
 " Gopher
 Plug 'olexsmir/gopher.nvim'

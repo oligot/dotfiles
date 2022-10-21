@@ -8,90 +8,93 @@ if not snip_status_ok then
 	return
 end
 
-local lspkind_ok, lspkind = pcall(require, "lspkind")
-if not lspkind_ok then
-	return
-end
+-- local lspkind_ok, lspkind = pcall(require, "lspkind")
+-- if not lspkind_ok then
+-- 	return
+-- end
 
-lspkind.init()
+-- lspkind.init()
+
+local kind_icons = {
+	Text = "",
+	Method = "",
+	Function = "",
+	Constructor = "",
+	Field = "",
+	Variable = "",
+	Class = "",
+	Interface = "",
+	Module = "",
+	Property = "",
+	Unit = "",
+	Value = "",
+	Enum = "",
+	Keyword = "",
+	Snippet = "",
+	Color = "",
+	File = "",
+	Reference = "",
+	Folder = "",
+	EnumMember = "",
+	Constant = "",
+	Struct = "",
+	Event = "",
+	Operator = "",
+	TypeParameter = "",
+}
 
 cmp.setup({
-	mapping = {
-		["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
-		["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
-		["<C-d>"] = cmp.mapping.scroll_docs(-4),
-		["<C-f>"] = cmp.mapping.scroll_docs(4),
-		["<C-e>"] = cmp.mapping.abort(),
-		["<c-y>"] = cmp.mapping(
-			cmp.mapping.confirm({
-				behavior = cmp.ConfirmBehavior.Insert,
-				select = true,
-			}),
-			{ "i", "c" }
-		),
-
-		["<c-space>"] = cmp.mapping({
-			i = cmp.mapping.complete(),
-			c = function(
-				_ --[[fallback]]
-			)
-				if cmp.visible() then
-					if not cmp.confirm({ select = true }) then
-						return
-					end
-				else
-					cmp.complete()
-				end
-			end,
-		}),
-
-		["<tab>"] = cmp.config.disable,
-
-		-- Testing
-		["<c-q>"] = cmp.mapping.confirm({
-			behavior = cmp.ConfirmBehavior.Replace,
-			select = true,
-		}),
-
-		--  First you have to just promise to read `:help ins-completion`.
+	snippet = {
+		expand = function(args)
+			luasnip.lsp_expand(args.body) -- For `luasnip` users.
+		end,
 	},
-	sources = {
+	mapping = cmp.mapping.preset.insert({
+		["<C-k>"] = cmp.mapping.select_prev_item(),
+		["<C-j>"] = cmp.mapping.select_next_item(),
+		["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-1), { "i", "c" }),
+		["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(1), { "i", "c" }),
+		["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
+		["<C-e>"] = cmp.mapping({
+			i = cmp.mapping.abort(),
+			c = cmp.mapping.close(),
+		}),
+		-- Accept currently selected item. If none selected, `select` first item.
+		-- Set `select` to `false` to only confirm explicitly selected items.
+		["<CR>"] = cmp.mapping.confirm({ select = true }),
+	}),
+	formatting = {
+		fields = { "kind", "abbr", "menu" },
+		format = function(entry, vim_item)
+			vim_item.kind = kind_icons[vim_item.kind]
+			vim_item.menu = ({
+				nvim_lsp = "",
+				nvim_lua = "",
+				luasnip = "",
+				buffer = "",
+				path = "",
+				emoji = "",
+			})[entry.source.name]
+			return vim_item
+		end,
+	},
+	sources = cmp.config.sources({
 		{ name = "nvim_lua" },
 		{ name = "nvim_lsp" },
 		{ name = "nvim_lsp_signature_help" },
 		{ name = "path" },
 		{ name = "luasnip" },
 		{ name = "buffer", keyword_length = 5 },
+	}),
+	confirm_opts = {
+		behavior = cmp.ConfirmBehavior.Replace,
+		select = false,
 	},
-	snippet = {
-		expand = function(args)
-			luasnip.lsp_expand(args.body) -- For `luasnip` users.
-		end,
+	window = {
+		completion = cmp.config.window.bordered(),
+		documentation = cmp.config.window.bordered(),
 	},
-	formatting = {
-		-- fields = { "kind", "abbr", "menu" },
-		format = lspkind.cmp_format({
-			with_text = true,
-			menu = {
-				buffer = "[Buf]",
-				nvim_lsp = "[LSP]",
-				nvim_lua = "[Lua]",
-				path = "[Path]",
-				luasnip = "[Snip]",
-			},
-		}),
-	},
-	-- confirm_opts = {
-	-- 	behavior = cmp.ConfirmBehavior.Replace,
-	-- 	select = false,
-	-- },
-	-- window = {
-	-- 	documentation = {
-	-- 		border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-	-- 	},
-	-- },
 	experimental = {
-		native_menu = false,
 		ghost_text = true,
 	},
 })

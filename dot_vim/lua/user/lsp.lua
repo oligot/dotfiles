@@ -53,12 +53,12 @@ local function lsp_keymaps(bufnr)
 	bufkeymap(bufnr, "n", "<space>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
 	bufkeymap(bufnr, "n", "<space>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
 	-- bufkeymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-	bufkeymap(bufnr, "n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+	bufkeymap(bufnr, "n", "<space>f", "<cmd>lua vim.lsp.buf.format({ async = true })<CR>", opts)
 end
 
 local function lsp_highlight_document(client)
 	-- Set autocommands conditional on server_capabilities
-	if client.resolved_capabilities.document_highlight then
+	if client.server_capabilities.document_highlight then
 		vim.api.nvim_exec(
 			[[
       augroup lsp_document_highlight
@@ -88,7 +88,7 @@ M.on_attach = function(client, bufnr)
 
 	if null_ls_formatting[client.name] then
 		-- Use null-ls to format the code
-		client.resolved_capabilities.document_formatting = false
+		client.server_capabilities.document_formatting = false
 	end
 
 	if client.name == "jdt.ls" then
@@ -114,7 +114,7 @@ M.on_attach = function(client, bufnr)
 			sqls.on_attach(client, bufnr)
 		end
 	end
-	if client.name ~= "bashls" then
+	if client.name ~= "bashls" and client.server_capabilities.documentSymbolProvider then
 		navic.attach(client, bufnr)
 	end
 
@@ -127,7 +127,7 @@ M.get_capabilities = function()
 
 	local ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
 	if ok then
-		capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
+		capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 	end
 	return capabilities
 end
@@ -181,17 +181,15 @@ lspconfig.sqls.setup({
 })
 
 -- Lua
-local luadev_ok, luadev = pcall(require, "lua-dev")
-if not luadev_ok then
+local neodev_ok, neodev = pcall(require, "neodev")
+if not neodev_ok then
 	return
 end
-local lua_setup = luadev.setup({
-	lspconfig = {
-		on_attach = M.on_attach,
-		capabilities = M.get_capabilities(),
-	},
+neodev.setup()
+lspconfig.sumneko_lua.setup({
+	on_attach = M.on_attach,
+	capabilities = M.get_capabilities(),
 })
-lspconfig.sumneko_lua.setup(lua_setup)
 
 -- Vue.js
 lspconfig.volar.setup({
@@ -204,12 +202,12 @@ lspconfig.yamlls.setup({
 	on_attach = M.on_attach,
 	capabilities = M.get_capabilities(),
 	settings = {
-    yaml = {
-      schemas = {
-        -- ["https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/schemas/v3.1/schema.json"] = "*-api-*.yaml"
-      },
-    },
-  }
+		yaml = {
+			schemas = {
+				-- ["https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/schemas/v3.1/schema.json"] = "*-api-*.yaml"
+			},
+		},
+	},
 })
 
 -- XML
@@ -272,7 +270,7 @@ local function setup()
 		"sqls",
 		"sumneko_lua",
 		"volar",
-		"yaml-language-server",
+		"yamlls",
 	}
 
 	mason.setup()
