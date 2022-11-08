@@ -48,7 +48,7 @@ font-2 = siji:pixelsize=10;1
 
 modules-left = i3 tmux
 modules-center = weather
-modules-right = filesystem volume xkeyboard memory cpu eth date powermenu
+modules-right = battery-combined-udev filesystem volume xkeyboard memory cpu eth date powermenu
 
 tray-position = right
 tray-padding = 2
@@ -377,6 +377,11 @@ exec = $HOME/.config/polybar/tmux.sh
 [module/weather]
 type = custom/script
 interval = 120
-exec = ~/.config/polybar/weather.sh
+exec = ~/.config/polybar/openweathermap-fullfeatured.sh
+
+[module/battery-combined-udev]
+type = custom/script
+exec = ~/.config/polybar/battery-combined-udev.sh
+tail = true
 
 ; vim:ft=dosini
