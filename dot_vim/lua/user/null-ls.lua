@@ -15,7 +15,7 @@ null_ls.setup({
 	sources = {
 		-- formatting
 		formatting.black,
-		formatting.goimports,
+		-- formatting.goimports,
 		formatting.google_java_format,
 		formatting.ktlint,
 		formatting.pg_format,

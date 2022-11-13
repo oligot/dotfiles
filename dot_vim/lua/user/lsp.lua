@@ -76,7 +76,7 @@ M.on_attach = function(client, bufnr)
 	local null_ls_formatting = {
 		["bashls"] = true,
 		["cssls"] = true,
-		["gopls"] = true,
+		-- ["gopls"] = true,
 		["jdt.ls"] = true,
 		["jsonls"] = true,
 		["lemminx"] = true,
@@ -88,7 +88,7 @@ M.on_attach = function(client, bufnr)
 
 	if null_ls_formatting[client.name] then
 		-- Use null-ls to format the code
-		client.server_capabilities.document_formatting = false
+		client.server_capabilities.documentFormattingProvider = false
 	end
 
 	if client.name == "jdt.ls" then
@@ -103,7 +103,7 @@ M.on_attach = function(client, bufnr)
 		vim.cmd([[
 		          augroup LspFormatting
 		              autocmd! * <buffer>
-		              autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
+		              autocmd BufWritePre <buffer> lua vim.lsp.buf.format({ async = true })
 		          augroup END
 		          ]])
 	end
