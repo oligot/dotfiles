@@ -177,6 +177,7 @@ call plug#begin('~/.vim/plugged')
 " source ~/.vim/plugins/choosewin.vim
 source ~/.vim/plugins/abolish.vim
 source ~/.vim/plugins/confluence.vim
+source ~/.vim/plugins/dadbod.vim
 source ~/.vim/plugins/dispatch.vim
 source ~/.vim/plugins/editorconfig.vim
 source ~/.vim/plugins/emmet.vim
@@ -210,7 +211,6 @@ if !has('nvim')
 	source ~/.vim/plugins/black.vim
 	source ~/.vim/plugins/coc.vim
 	source ~/.vim/plugins/commentary.vim
-	source ~/.vim/plugins/dadbod.vim
 	source ~/.vim/plugins/fzf.vim
 	source ~/.vim/plugins/go.vim
 	source ~/.vim/plugins/grepper.vim
