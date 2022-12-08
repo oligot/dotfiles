@@ -191,7 +191,6 @@ source ~/.vim/plugins/markdown.vim
 source ~/.vim/plugins/matchup.vim
 source ~/.vim/plugins/maximizer.vim
 source ~/.vim/plugins/mkdir.vim
-source ~/.vim/plugins/nord.vim
 source ~/.vim/plugins/peekaboo.vim
 source ~/.vim/plugins/polyglot.vim
 source ~/.vim/plugins/quick-scope.vim
@@ -216,6 +215,7 @@ if !has('nvim')
 	source ~/.vim/plugins/grepper.vim
 	source ~/.vim/plugins/jedi.vim
 	source ~/.vim/plugins/nerdtree.vim
+  source ~/.vim/plugins/nord.vim
   source ~/.vim/plugins/prettier.vim
 	source ~/.vim/plugins/sensible.vim
 	source ~/.vim/plugins/shfmt.vim
@@ -225,8 +225,6 @@ if has('nvim')
 	source ~/.vim/plugins/nvim.vim
 endif
 call plug#end()
-
-colorscheme nord
 
 cabbrev lvim
       \ lvim /\<lt><C-R><C-W>\>/gj
@@ -251,4 +249,6 @@ set splitright
 
 if has("nvim")
 	lua require("user")
+else
+   colorscheme nord
 endif

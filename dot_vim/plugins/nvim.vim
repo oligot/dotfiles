@@ -38,6 +38,9 @@ Plug 'nvim-tree/nvim-tree.lua'
 " Autopair
 Plug 'windwp/nvim-autopairs'
 
+" Nord theme
+Plug 'shaunsingh/nord.nvim'
+
 " Statusline
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'SmiteshP/nvim-navic'
@@ -92,3 +95,6 @@ Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 
 " Autolist
 Plug 'gaoDean/autolist.nvim'
+
+" Neogit
+Plug 'TimUntersberger/neogit'

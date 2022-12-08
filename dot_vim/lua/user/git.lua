@@ -22,3 +22,10 @@ if not gitlinker_ok then
 end
 
 gitlinker.setup()
+
+local neogit_ok, neogit = pcall(require, "neogit")
+if not neogit_ok then
+	return
+end
+
+neogit.setup {}

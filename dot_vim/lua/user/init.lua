@@ -1,3 +1,6 @@
+ -- Colorscheme first
+require("user.nord")
+
 require("user.autolist")
 require("user.autopairs")
 -- require("user.cmp")
