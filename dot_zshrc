@@ -51,9 +51,10 @@ fi
 
 # Environment variables
 #
-export PATH="$N_PREFIX/bin:$PATH:$HOME/bin:/usr/local/bin:$GOPATH/bin:$HOME/.local/bin:$HOME/.cargo/bin:$HOME/.fzf/bin"
+export PATH="$N_PREFIX/bin:$HOME/bin:/usr/local/bin:$GOPATH/bin:$HOME/.local/bin:$HOME/.cargo/bin:$HOME/.fzf/bin:$PATH"
 export N_PREFIX="$HOME/n"
-export GOPATH=$HOME/go
+export GOPATH="$HOME/go"
+export GOROOT="$HOME/.go"
 export JDTLS_HOME=$HOME/.local/share/nvim/mason/packages/jdtls
 export MANPATH=$MANPATH:/usr/local/share/man
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -188,8 +189,6 @@ SAVEHIST=10000
 zstyle ':completion:*' rehash true
 # case-insensitive,partial-word and then substring completion
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
-
-[[ -s "/home/oli/.gvm/scripts/gvm" ]] && source "/home/oli/.gvm/scripts/gvm"
 
 [ -f ~/.fzf/shell/key-bindings.zsh ] && source ~/.fzf/shell/key-bindings.zsh
 
