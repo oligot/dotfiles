@@ -132,6 +132,12 @@ M.get_capabilities = function()
 	return capabilities
 end
 
+-- Ansible
+lspconfig.ansiblels.setup({
+	on_attach = M.on_attach,
+	capabilities = M.get_capabilities(),
+})
+
 -- Bash
 lspconfig.bashls.setup({
 	on_attach = M.on_attach,
@@ -260,6 +266,7 @@ local function setup()
 	})
 
 	local ensure_installed = {
+		"ansiblels",
 		"bashls",
 		"cssls",
 		"gopls",

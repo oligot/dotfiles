@@ -28,7 +28,7 @@ null_ls.setup({
 			args = { "run", "--fix=false", "--out-format=json", "$DIRNAME", "--path-prefix", "$ROOT" },
 		}),
 		diagnostics.ktlint,
-		diagnostics.vale,
+		-- diagnostics.vale,
 		diagnostics.yamllint,
 		-- code actions
 		code_actions.gitsigns,
