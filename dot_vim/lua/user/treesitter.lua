@@ -1,4 +1,5 @@
 local configs = require("nvim-treesitter.configs")
+
 configs.setup({
 	ensure_installed = { "go", "json", "lua" },
 	sync_install = false,
@@ -12,4 +13,13 @@ configs.setup({
 		additional_vim_regex_highlighting = false,
 	},
 	indent = { enable = true, disable = { "yaml" } },
+	incremental_selection = {
+		enable = true,
+		keymaps = {
+			init_selection = "<c-space>",
+			node_incremental = "<c-space>",
+			scope_incremental = "<c-s>",
+			node_decremental = "<c-backspace>",
+		},
+	},
 })
