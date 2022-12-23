@@ -1,3 +1,5 @@
+# vi: set ft=zsh :
+
 # zplug
 
 source ~/.zplug/init.zsh
@@ -31,6 +33,8 @@ zplug "plugins/terraform", from:oh-my-zsh
 zplug "romkatv/powerlevel10k", as:theme, depth:1
 zplug "wfxr/forgit"
 zplug "bigH/git-fuzzy", as:command, use:"bin/git-fuzzy"
+zplug "junegunn/fzf-git.sh", use:"*.sh"
+zplug "~/.zsh", from:local
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
@@ -101,6 +105,7 @@ export LESS_TERMCAP_ue=$'\E[0m'        # fin
 alias _='sudo'
 alias bh='bitbucket-home'
 alias cat='bat'
+alias c='fzf-git-checkout'
 alias cdr="cd $(git rev-parse --show-toplevel)"
 alias certpp='openssl x509 -text -in'
 alias d='git diff -w'
