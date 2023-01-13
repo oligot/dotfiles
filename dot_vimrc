@@ -185,6 +185,7 @@ source ~/.vim/plugins/expand-region.vim
 source ~/.vim/plugins/fugitive.vim
 source ~/.vim/plugins/ghost.vim
 source ~/.vim/plugins/git.vim
+source ~/.vim/plugins/himalaya.vim
 source ~/.vim/plugins/incsearch.vim
 source ~/.vim/plugins/javascript.vim
 source ~/.vim/plugins/markdown.vim
