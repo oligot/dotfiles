@@ -112,6 +112,7 @@ alias d='git diff -w'
 alias df='df -h'
 alias dodo='sudo /sbin/shutdown -h now'
 alias du='du -h'
+alias gclw='git-clone-bare-for-worktrees.sh'
 alias gdcw='git diff --cached -w' # Overwrite oh-my-zsh git plugin
 alias gpa='git add . && git commit -v && git push'
 alias gstau='git stash push --include-untracked'
@@ -136,6 +137,7 @@ alias -g L='| less'
 alias -g G='| grep'
 alias -g P='| python -m json.tool'
 alias -g X='| xclip -sel clip'
+alias -g Z='| fzf'
 
 function mingz () { curl -sL wzrd.in/standalone/"$1"|uglifyjs -mc 2>/dev/null|gzip -c|wc -c;}
 
@@ -225,9 +227,20 @@ function zshaddhistory() {
 	echo "${1%%$'\n'}⋮${PWD}   " >> ~/.zsh_history_ext
 }
 
+# find-in-file - usage: fif <SEARCH_TERM>
+fif() {
+  if [ ! "$#" -gt 0 ]; then
+    echo "Need a string to search for!";
+    return 1;
+  fi  
+  rg --files-with-matches --no-messages "$1" | fzf $FZF_PREVIEW_WINDOW --preview "rg --ignore-case --pretty --context 10 '$1' {}"
+}
+
 test -r "~/.dir_colors" && eval $(dircolors ~/.dir_colors)
 
 eval "$(direnv hook zsh)"
+
+eval "$(zoxide init zsh)"
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
