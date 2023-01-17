@@ -1,9 +1,13 @@
 # vi: set ft=zsh :
 
+autoload -Uz compinit && compinit
+autoload -U +X bashcompinit && bashcompinit
+
 # zplug
 
 source ~/.zplug/init.zsh
 
+zplug "Aloxaf/fzf-tab"
 zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-syntax-highlighting"
 zplug "zsh-users/zsh-history-substring-search"
@@ -199,8 +203,6 @@ zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 
 
 [ -f ~/.fzf/shell/key-bindings.zsh ] && source ~/.fzf/shell/key-bindings.zsh
 
-autoload -Uz compinit && compinit
-autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/bin/vault vault
 
 # Associate suffixes with handlers for their files
