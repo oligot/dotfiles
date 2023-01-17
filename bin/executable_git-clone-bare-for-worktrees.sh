@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-# Credits:
+# Source:
 # https://morgan.cugerone.com/blog/workarounds-to-git-worktree-using-bare-repository-and-cannot-fetch-remote-branches/
 
 # Examples of call:

@@ -19,3 +19,22 @@ fzf-git-checkout() {
         git checkout $branch;
     fi
 }
+
+# https://waylonwalker.com/nvr-open-files/
+fzf-git-worktree() {
+    git rev-parse HEAD > /dev/null 2>&1 || return
+
+    local worktree
+
+    worktree=$(git worktree list | fzf)
+    if [[ "$worktree" = "" ]]; then
+      echo "No worktree selected."
+      return
+    fi
+
+    local dir=$(echo "$worktree" | cut -d ' ' -f1)
+    cd "$dir"
+
+    local nvim_listen=~/.cache/nvim/$(basename $(dirname $dir)).pipe
+    nvim --server $nvim_listen --remote-send "<C-\><C-N>:cd $dir<CR>"
+}
