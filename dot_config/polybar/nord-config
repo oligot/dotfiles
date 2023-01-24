@@ -63,7 +63,7 @@ wm-restack = i3
 # mullvad-status: showing mullvad status
 
 # Top modules
-top-left = i3 title
+top-left = i3 workspace-name title
 top-center = mpd
 top-right = keyboard clipmenu-widget pulseaudio network-short battery date
 
@@ -92,10 +92,10 @@ line-size = 6
 # Format is {identifier};{icon}, where identifier is the name of the workspace,
 # and icon is the label to be displayed.
 # If no icon is provided, {identifier} will be used as label.
-ws-icon-0 = I;
-ws-icon-1 = II;
-ws-icon-2 = III;
-ws-icon-3 = IV;
+ws-icon-1 = 1: Browser;
+ws-icon-2 = 2: Code;
+ws-icon-0 = 3: IM;
+ws-icon-3 = 4: PM;
 ws-icon-4 = V;
 ws-icon-5 = VI;
 ws-icon-6 = VII;
@@ -159,4 +159,4 @@ notify-click-left = xdotool key control+grave
 # on different bars
 #
 # Default: false
-i3-pin-workspaces = false
+i3-pin-workspaces = true
