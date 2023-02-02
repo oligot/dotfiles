@@ -174,6 +174,12 @@ lspconfig.jsonls.setup({
 	},
 })
 
+-- Nix
+lspconfig.nil_ls.setup{
+	on_attach = M.on_attach,
+	capabilities = M.get_capabilities(),
+}
+
 -- Python
 lspconfig.pylsp.setup({
 	on_attach = M.on_attach,

@@ -18,6 +18,7 @@ null_ls.setup({
 		-- formatting.goimports,
 		formatting.google_java_format,
 		formatting.ktlint,
+		formatting.nixpkgs_fmt,
 		formatting.pg_format,
 		formatting.prettier,
 		formatting.shfmt,
