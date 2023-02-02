@@ -98,3 +98,6 @@ Plug 'gaoDean/autolist.nvim'
 
 " Neogit
 Plug 'TimUntersberger/neogit'
+
+" Surround
+Plug 'kylechui/nvim-surround'

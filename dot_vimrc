@@ -197,7 +197,6 @@ source ~/.vim/plugins/polyglot.vim
 source ~/.vim/plugins/quick-scope.vim
 source ~/.vim/plugins/ranger.vim
 source ~/.vim/plugins/splitjoin.vim
-source ~/.vim/plugins/surround.vim
 source ~/.vim/plugins/terminal.vim
 source ~/.vim/plugins/textobj.vim
 source ~/.vim/plugins/tmux.vim
@@ -221,6 +220,7 @@ if !has('nvim')
 	source ~/.vim/plugins/sensible.vim
 	source ~/.vim/plugins/shfmt.vim
 	source ~/.vim/plugins/snippets.vim
+   source ~/.vim/plugins/surround.vim
 endif
 if has('nvim')
 	source ~/.vim/plugins/nvim.vim
