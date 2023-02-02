@@ -135,6 +135,7 @@ alias rm='rm -I'
 alias s='git status -s'
 alias sudo='sudo '
 alias v='nvim'
+alias w='fzf-git-worktree'
 alias yupi='yarn upgrade-interactive --latest'
 
 # Global aliases -- These do not have to be

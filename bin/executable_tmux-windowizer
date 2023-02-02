@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+# Heavily inspired by 
+# https://github.com/ThePrimeagen/.dotfiles/blob/f19fe9fda8814dd98b0480aa1064fe0844f4eacb/bin/.local/scripts/tmux-windowizer
+
+branch_name=$(basename "$1")
+session_name=$(tmux display-message -p "#S")
+clean_name=$(echo "$branch_name" | tr "./" "__")
+target="$session_name:$clean_name"
+
+dir="."
+if [ -d "$branch_name" ]; then
+  dir=$branch_name
+fi
+nvim_listen=~/.cache/nvim/$target.pipe
+height=0
+if hash xdpyinfo 2> /dev/null; then
+  height=$(xdpyinfo  | grep 'dimensions:' | awk '{ print $2 }' | cut -d 'x' -f 2)
+fi
+
+if ! tmux has-session -t "$target" 2> /dev/null; then
+    tmux neww -dn "$clean_name" -c "$dir"
+fi
+
+# shift
+# tmux send-keys -t $target "$*"
+tmux send-keys -t "$target" "nvim --listen $nvim_listen" C-m
+tmux split-window -t "$target" -c "$dir"
+tmux split-window -h -t "$target" -c "$dir"
+if [ "$height" -gt 2000 ]; then
+  tmux resize-pane -t "$target" -D 10
+fi
