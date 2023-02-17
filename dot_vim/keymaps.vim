@@ -16,7 +16,7 @@ map <leader>s :source ~/.vimrc<cr>
 map <leader>e :e! ~/.vimrc<cr>
 
 "Buffers
-command Bd :up | %bd | e#
+command Bd :up | %bd | e# | bd#
 nnoremap <silent> <leader>d :bdelete<CR>
 nnoremap <leader>, <C-^>
 map <leader>Q :bufdo bdelete<cr>

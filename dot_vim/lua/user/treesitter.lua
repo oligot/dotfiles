@@ -1,7 +1,7 @@
 local configs = require("nvim-treesitter.configs")
 
 configs.setup({
-	ensure_installed = { "go", "json", "lua" },
+	ensure_installed = { "go", "json", "lua", "sql" },
 	sync_install = false,
 	ignore_install = { "" }, -- List of parsers to ignore installing
 	autopairs = {
