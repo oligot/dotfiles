@@ -19,7 +19,7 @@ if hash xdpyinfo 2> /dev/null; then
 fi
 
 if ! tmux has-session -t "$target" 2> /dev/null; then
-    tmux neww -dn "$clean_name" -c "$dir"
+    tmux neww -n "$clean_name" -c "$dir"
 fi
 
 # shift
