@@ -81,8 +81,8 @@ M.on_attach = function(client, bufnr)
 		["jsonls"] = true,
 		["lemminx"] = true,
 		["pylsp"] = true,
-		["sqls"] = true,
-		["sumneko_lua"] = true,
+		["sqlls"] = true,
+		["lua_ls"] = true,
 		["volar"] = true,
 	}
 
@@ -108,7 +108,7 @@ M.on_attach = function(client, bufnr)
 		          ]])
 	end
 
-	if client.name == "sqls" then
+	if client.name == "sqlls" then
 		local ok, sqls = pcall(require, "sqls")
 		if ok then
 			sqls.on_attach(client, bufnr)
@@ -187,7 +187,7 @@ lspconfig.pylsp.setup({
 })
 
 -- SQL
-lspconfig.sqls.setup({
+lspconfig.sqlls.setup({
 	on_attach = M.on_attach,
 	capabilities = M.get_capabilities(),
 })
@@ -198,7 +198,7 @@ if not neodev_ok then
 	return
 end
 neodev.setup()
-lspconfig.sumneko_lua.setup({
+lspconfig.lua_ls.setup({
 	on_attach = M.on_attach,
 	capabilities = M.get_capabilities(),
 })
@@ -280,8 +280,8 @@ local function setup()
 		"jsonls",
 		"lemminx",
 		"pylsp",
-		"sqls",
-		"sumneko_lua",
+		"sqlls",
+		"lua_ls",
 		"volar",
 		"yamlls",
 	}
