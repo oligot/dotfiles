@@ -28,6 +28,7 @@ null_ls.setup({
 		diagnostics.golangci_lint.with({
 			args = { "run", "--fix=false", "--out-format=json", "$DIRNAME", "--path-prefix", "$ROOT" },
 		}),
+		diagnostics.hadolint,
 		diagnostics.ktlint,
 		-- diagnostics.vale,
 		diagnostics.yamllint,

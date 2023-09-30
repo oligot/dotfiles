@@ -150,6 +150,18 @@ lspconfig.cssls.setup({
 	capabilities = M.get_capabilities(),
 })
 
+-- Docker Compose
+lspconfig.docker_compose_language_service.setup({
+	on_attach = M.on_attach,
+	capabilities = M.get_capabilities(),
+})
+
+-- Docker
+lspconfig.dockerls.setup({
+	on_attach = M.on_attach,
+	capabilities = M.get_capabilities(),
+})
+
 -- Golang
 lspconfig.gopls.setup({
 	on_attach = M.on_attach,
@@ -170,6 +182,7 @@ lspconfig.jsonls.setup({
 	settings = {
 		json = {
 			schemas = require("schemastore").json.schemas(),
+			validate = { enable = true },
 		},
 	},
 })
@@ -215,9 +228,12 @@ lspconfig.yamlls.setup({
 	capabilities = M.get_capabilities(),
 	settings = {
 		yaml = {
-			schemas = {
-				-- ["https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/schemas/v3.1/schema.json"] = "*-api-*.yaml"
-			},
+			-- schemaStore = {
+			-- 	-- You must disable built-in schemaStore support if you want to use
+			-- 	-- this plugin and its advanced options like `ignore`.
+			-- 	enable = false,
+			-- },
+			-- schemas = require('schemastore').yaml.schemas(),
 		},
 	},
 })
@@ -275,6 +291,8 @@ local function setup()
 		"ansiblels",
 		"bashls",
 		"cssls",
+		"docker_compose_language_service",
+		"dockerls",
 		"gopls",
 		"jdtls",
 		"jsonls",
