@@ -101,3 +101,7 @@ Plug 'TimUntersberger/neogit'
 
 " Surround
 Plug 'kylechui/nvim-surround'
+
+" GitLab
+Plug 'MunifTanjim/nui.nvim'
+Plug 'harrisoncramer/gitlab.nvim'
