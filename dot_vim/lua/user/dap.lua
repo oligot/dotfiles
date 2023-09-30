@@ -35,3 +35,4 @@ keymap("n", "<Leader>lp", "<Cmd>lua require'dap'.set_breakpoint(nil, nil, vim.fn
 keymap("n", "<Leader>dr", "<Cmd>lua require'dap'.repl.open()<CR>", opts)
 keymap("n", "<Leader>dl", "<Cmd>lua require'dap'.run_last()<CR>", opts)
 keymap("n", "<leader>E", "<Cmd>lua require('dapui').eval()<CR>", opts)
+keymap("n", "<leader>td", "<Cmd>lua require('dap-go').debug_test()<CR>", opts)
