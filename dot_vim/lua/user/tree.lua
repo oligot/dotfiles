@@ -27,8 +27,8 @@ end
 -- each options are documented in `:help nvim-tree.OPTION_NAME`
 nvim_tree.setup({
 	on_attach = on_attach,
-	disable_netrw = true,
-	hijack_netrw = true,
+	disable_netrw = false,
+	hijack_netrw = false,
 	sync_root_with_cwd = true,
 	diagnostics = {
 		enable = true,

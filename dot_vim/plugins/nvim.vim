@@ -105,3 +105,10 @@ Plug 'kylechui/nvim-surround'
 " GitLab
 Plug 'MunifTanjim/nui.nvim'
 Plug 'harrisoncramer/gitlab.nvim'
+
+" Hurl
+Plug 'pfeiferj/nvim-hurl'
+autocmd BufRead,BufNewFile *.hurl setlocal filetype=hurl
+
+" Image Viewer as ASCII Art
+Plug 'samodostal/image.nvim'

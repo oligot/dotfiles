@@ -193,6 +193,7 @@ source ~/.vim/plugins/markdown.vim
 source ~/.vim/plugins/matchup.vim
 source ~/.vim/plugins/maximizer.vim
 source ~/.vim/plugins/mkdir.vim
+source ~/.vim/plugins/netrw.vim
 source ~/.vim/plugins/peekaboo.vim
 source ~/.vim/plugins/polyglot.vim
 source ~/.vim/plugins/quick-scope.vim
@@ -240,6 +241,7 @@ autocmd FileType context setlocal spell spelllang=en,fr
 autocmd FileType gitcommit setlocal spell
 autocmd BufRead,BufNewFile *.md setlocal spell spelllang=en,fr
 autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+autocmd FocusGained,BufEnter * :checktime
 
 
 "Access man pages
