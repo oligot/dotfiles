@@ -177,6 +177,7 @@ call plug#begin('~/.vim/plugged')
 " source ~/.vim/plugins/choosewin.vim
 source ~/.vim/plugins/abolish.vim
 source ~/.vim/plugins/confluence.vim
+source ~/.vim/plugins/copilot.vim
 source ~/.vim/plugins/dadbod.vim
 source ~/.vim/plugins/dispatch.vim
 source ~/.vim/plugins/editorconfig.vim

@@ -3,11 +3,11 @@ if not null_ls_status_ok then
 	return
 end
 
--- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/formatting
+-- https://github.com/nvimtools/none-ls.nvim/blob/main/doc/BUILTINS.md#formatting
 local formatting = null_ls.builtins.formatting
--- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/diagnostics
+-- https://github.com/nvimtools/none-ls.nvim/blob/main/doc/BUILTINS.md#diagnostics
 local diagnostics = null_ls.builtins.diagnostics
--- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/code_actions
+-- https://github.com/nvimtools/none-ls.nvim/blob/main/doc/BUILTINS.md#code-actions
 local code_actions = null_ls.builtins.code_actions
 
 null_ls.setup({
@@ -23,7 +23,7 @@ null_ls.setup({
 		formatting.prettier,
 		formatting.shfmt,
 		formatting.stylua,
-		formatting.xmllint,
+		-- formatting.xmllint, TODO: Utiliser https://github.com/eclipse/lemminx à la place
 		-- diagnostics
 		diagnostics.golangci_lint.with({
 			args = { "run", "--fix=false", "--out-format=json", "$DIRNAME", "--path-prefix", "$ROOT" },
