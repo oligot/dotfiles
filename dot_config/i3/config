@@ -204,4 +204,4 @@ bindsym XF86AudioPrev exec playerctl previous
 # }
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 exec_always --no-startup-id nm-applet
-exec_always feh --bg-scale $HOME/Pictures/wallpaper.png
+exec_always feh --bg-scale $HOME/Pictures/wallpaper.jpg
