@@ -1,3 +1,5 @@
+# vi: set ft=gitconfig :
+
 [user]
     name = Olivier Ligot
 [alias]
@@ -7,6 +9,8 @@
     whitespace = cr-at-eol
     excludesfile = ~/.gitignore
     pager = delta --dark
+[interactive]
+    diffFilter = delta --color-only
 [push]
     default = simple
     followTags = true
