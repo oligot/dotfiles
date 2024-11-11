@@ -83,6 +83,7 @@ M.on_attach = function(client, bufnr)
 		["pylsp"] = true,
 		["sqlls"] = true,
 		["lua_ls"] = true,
+		["ts_ls"] = true,
 		["volar"] = true,
 	}
 
@@ -127,6 +128,7 @@ M.get_capabilities = function()
 
 	local ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
 	if ok then
+		capabilities.insertReplaceSupport = false
 		capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 	end
 	return capabilities
@@ -160,6 +162,19 @@ lspconfig.docker_compose_language_service.setup({
 lspconfig.dockerls.setup({
 	on_attach = M.on_attach,
 	capabilities = M.get_capabilities(),
+})
+
+-- Gitlab CI
+lspconfig.gitlab_ci_ls.setup({
+	on_attach = M.on_attach,
+	capabilities = M.get_capabilities(),
+})
+
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = "*.gitlab-ci*.{yml,yaml}",
+  callback = function()
+    vim.bo.filetype = "yaml.gitlab"
+  end,
 })
 
 -- Golang
@@ -214,6 +229,33 @@ neodev.setup()
 lspconfig.lua_ls.setup({
 	on_attach = M.on_attach,
 	capabilities = M.get_capabilities(),
+})
+
+-- Tailwind CSS
+lspconfig.tailwindcss.setup({
+	on_attach = M.on_attach,
+	capabilities = M.get_capabilities(),
+})
+
+-- TypeScript
+lspconfig.ts_ls.setup({
+	on_attach = M.on_attach,
+	capabilities = M.get_capabilities(),
+	init_options = {
+    plugins = {
+      {
+        name = "@vue/typescript-plugin",
+				-- location MUST be defined. If the plugin is installed in node_modules, location can have any value
+        location = "./node_modules/@vue/language-server",
+        languages = {"vue"},
+      },
+    },
+  },
+  filetypes = {
+    "javascript",
+    "typescript",
+    "vue",
+  },
 })
 
 -- Vue.js
@@ -293,6 +335,7 @@ local function setup()
 		"cssls",
 		"docker_compose_language_service",
 		"dockerls",
+		"gitlab_ci_ls",
 		"gopls",
 		"jdtls",
 		"jsonls",
@@ -300,6 +343,8 @@ local function setup()
 		"pylsp",
 		"sqlls",
 		"lua_ls",
+		"tailwindcss",
+		"ts_ls",
 		"volar",
 		"yamlls",
 	}

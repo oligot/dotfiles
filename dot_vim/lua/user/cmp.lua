@@ -98,11 +98,3 @@ cmp.setup({
 		ghost_text = true,
 	},
 })
-
--- Add vim-dadbod-completion in sql files
-_ = vim.cmd([[
-  augroup DadbodSql
-    au!
-    autocmd FileType sql,mysql,plsql lua require('cmp').setup.buffer { sources = { { name = 'vim-dadbod-completion' } } }
-  augroup END
-]])

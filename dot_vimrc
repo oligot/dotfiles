@@ -185,7 +185,6 @@ source ~/.vim/plugins/emmet.vim
 source ~/.vim/plugins/expand-region.vim
 source ~/.vim/plugins/fugitive.vim
 source ~/.vim/plugins/fzf.vim
-source ~/.vim/plugins/ghost.vim
 source ~/.vim/plugins/git.vim
 source ~/.vim/plugins/himalaya.vim
 " source ~/.vim/plugins/incsearch.vim
@@ -214,6 +213,7 @@ if !has('nvim')
 	source ~/.vim/plugins/coc.vim
 	source ~/.vim/plugins/commentary.vim
 	source ~/.vim/plugins/fzf-vim.vim
+  source ~/.vim/plugins/ghost.vim
 	source ~/.vim/plugins/go.vim
 	source ~/.vim/plugins/grepper.vim
 	source ~/.vim/plugins/jedi.vim

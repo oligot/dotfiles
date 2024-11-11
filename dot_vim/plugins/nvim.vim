@@ -58,6 +58,8 @@ Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'saadparwaiz1/cmp_luasnip' " snippet completions
 Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
 
+autocmd FileType sql,mysql,plsql lua require('cmp').setup.buffer({ sources = {{ name = 'vim-dadbod-completion' }}, {{ name = 'buffer' }}  })
+
 " snippets
 Plug 'L3MON4D3/LuaSnip' " snippet engine
 Plug 'rafamadriz/friendly-snippets' " a bunch of snippets to use
@@ -67,6 +69,7 @@ Plug 'folke/trouble.nvim'
 
 " Debug Adapter Protocol
 Plug 'mfussenegger/nvim-dap'
+Plug 'nvim-neotest/nvim-nio'
 Plug 'rcarriga/nvim-dap-ui'
 Plug 'theHamsta/nvim-dap-virtual-text'
 Plug 'leoluz/nvim-dap-go'
@@ -112,3 +115,15 @@ autocmd BufRead,BufNewFile *.hurl setlocal filetype=hurl
 
 " Image Viewer as ASCII Art
 Plug 'samodostal/image.nvim'
+
+" SQL IDE
+Plug 'xemptuous/sqlua.nvim'
+
+" File explorer
+Plug 'stevearc/oil.nvim'
+
+" Tailwind CSS
+Plug 'luckasRanarison/tailwind-tools.nvim', { 'do': ':UpdateRemotePlugins'}
+
+" Ghost
+Plug 'subnut/nvim-ghost.nvim'
