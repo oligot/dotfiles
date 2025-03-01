@@ -26,6 +26,7 @@ zplug "plugins/git-extras", from:oh-my-zsh
 zplug "plugins/git-flow", from:oh-my-zsh
 zplug "plugins/git-flow-avh", from:oh-my-zsh
 zplug "plugins/golang", from:oh-my-zsh
+zplug "plugins/kubectl", from:oh-my-zsh
 zplug "plugins/npm", from:oh-my-zsh
 zplug "plugins/sudo", from:oh-my-zsh
 zplug "plugins/systemd", from:oh-my-zsh
@@ -90,6 +91,7 @@ export BROWSER="firefox"
 export FZF_DEFAULT_COMMAND='rg --files --follow --hidden'
 # add support for ctrl+o to open selected file in VS Code
 export FZF_DEFAULT_OPTS="--bind='ctrl-o:execute(code {})+abort'"
+export KUBECONFIG=$HOME/.kube/config
 
 #Pager
 export LESS=-FSRX
@@ -271,6 +273,17 @@ eval "$(direnv hook zsh)"
 
 eval "$(zoxide init zsh)"
 
+if type "kubectl" > /dev/null; then
+    source <(kubectl completion zsh)
+fi
+
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+# bun completions
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
