@@ -24,6 +24,10 @@ local lsplines_status_ok, lsplines = pcall(require, "lsp_lines")
 if not lsplines_status_ok then
 	return
 end
+local yaml_companion_ok, yaml_companion = pcall(require, "yaml-companion")
+if not yaml_companion_ok then
+	return
+end
 
 local function lsp_keymaps(bufnr)
 	-- See `:help vim.diagnostic.*` for documentation on any of the below functions
@@ -265,7 +269,7 @@ lspconfig.volar.setup({
 })
 
 -- Yaml
-lspconfig.yamlls.setup({
+lspconfig.yamlls.setup(yaml_companion.setup({
 	on_attach = M.on_attach,
 	capabilities = M.get_capabilities(),
 	settings = {
@@ -278,7 +282,7 @@ lspconfig.yamlls.setup({
 			-- schemas = require('schemastore').yaml.schemas(),
 		},
 	},
-})
+}))
 
 -- XML
 lspconfig.lemminx.setup({

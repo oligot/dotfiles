@@ -1,3 +1,4 @@
+require("diffview") -- We require some global state from diffview
 local status_ok, gitlab = pcall(require, "gitlab")
 if not status_ok then
 	return

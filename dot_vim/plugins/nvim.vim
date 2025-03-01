@@ -127,3 +127,9 @@ Plug 'luckasRanarison/tailwind-tools.nvim', { 'do': ':UpdateRemotePlugins'}
 
 " Ghost
 Plug 'subnut/nvim-ghost.nvim'
+
+" YAML schemas
+Plug 'someone-stole-my-name/yaml-companion.nvim'
+
+" Kubernetes
+Plug 'ramilito/kubectl.nvim'
