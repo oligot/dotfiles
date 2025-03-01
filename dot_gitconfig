@@ -23,6 +23,10 @@
     conflictStyle = zdiff3
 [status]
     showUntrackedFiles = all
+[column]
+    ui = auto
+[branch]
+    sort = -committerdate
 [color]
     ui = auto
 [color "branch"]
@@ -31,32 +35,49 @@
     remote = green
 [color "status"]
     untracked = yellow
+[tag]
+    sort = version:refname
 
 # use separate file for username / github token / etc
 [include]
     path = ~/.gitconfig.local
 [diff]
+    algorithm = histogram
     compactionHeuristic = true
-    colorMoved = zebra
-	submodule = diff
-	external = difft
+    colorMoved = zebra # plain ?
+    submodule = diff
+    external = difft
+    mnemonicPrefix = true
+    renames = true
 [fetch]
     prune = true
+    pruneTags = true
+    all = true
 [filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
 [pull]
-	rebase = true
+    rebase = true
 [init]
-	defaultBranch = main
+    defaultBranch = main
 [blame]
-	; ignoreRevsFile = .git-blame-ignore-revs
-	markIgnoredLines = true
-	markUnblamableLines = true
+  ; ignoreRevsFile = .git-blame-ignore-revs
+    markIgnoredLines = true
+    markUnblamableLines = true
 [submodule]
-	recurse = true
+    recurse = true
 [rebase]
-	autosquash = true
-	updateRefs = true
+    autoSquash = true
+    autoStash = true
+    updateRefs = true
+[help]
+    autocorrect = prompt
+[commit]
+    verbose = true
+[rerere]
+    enabled = true
+    autoupdate = true
+[core]
+    excludesfile = ~/.gitignore
