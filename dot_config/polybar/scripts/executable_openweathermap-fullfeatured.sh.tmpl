@@ -52,7 +52,7 @@ get_duration() {
 
 }
 
-KEY="{{ keyring "openweather" "oli" }}"
+KEY="{{ (bitwardenFields "item" "OpenWeather").key.value }}"
 CITY="Braine-le-Comte,BE"
 UNITS="metric"
 SYMBOL="°"
