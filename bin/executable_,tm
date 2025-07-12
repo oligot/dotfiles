@@ -2,7 +2,6 @@
 
 pwd=`pwd`
 SESSION=`basename $pwd` 
-nvim_listen=~/.cache/nvim/$SESSION.pipe
 height=0
 if hash xdpyinfo 2> /dev/null; then
   height=`xdpyinfo  | grep 'dimensions:' | awk '{ print $2 }' | cut -d 'x' -f 2`
@@ -12,7 +11,7 @@ fi
 tmux list-sessions | grep "^$SESSION\:.*$" > /dev/null
 if [ "$?" -ne 0 ]; then
   tmux -2 new-session -s $SESSION -d
-  tmux send-keys "nvim --listen $nvim_listen" C-m
+  tmux send-keys "nvim" C-m
   tmux split-window
   tmux split-window -h
   if [ $height -gt 2000 ]; then

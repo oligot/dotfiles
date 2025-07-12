@@ -12,7 +12,6 @@ dir="."
 if [ -d "$branch_name" ]; then
   dir=$branch_name
 fi
-nvim_listen=~/.cache/nvim/$target.pipe
 height=0
 if hash xdpyinfo 2> /dev/null; then
   height=$(xdpyinfo  | grep 'dimensions:' | awk '{ print $2 }' | cut -d 'x' -f 2)
@@ -24,7 +23,7 @@ fi
 
 # shift
 # tmux send-keys -t $target "$*"
-tmux send-keys -t "$target" "nvim --listen $nvim_listen" C-m
+tmux send-keys -t "$target" "nvim" C-m
 tmux split-window -t "$target" -c "$dir"
 tmux split-window -h -t "$target" -c "$dir"
 if [ "$height" -gt 2000 ]; then
