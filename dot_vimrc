@@ -84,7 +84,7 @@ set mat=2
 set noshowmode
 
 "General conceal settings
-" set conceallevel=1
+set conceallevel=2
 set concealcursor=nc
 
 

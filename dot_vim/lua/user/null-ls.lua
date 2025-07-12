@@ -13,8 +13,6 @@ local code_actions = null_ls.builtins.code_actions
 null_ls.setup({
 	debug = false,
 	sources = {
-		-- formatting
-		formatting.black,
 		-- formatting.goimports,
 		formatting.google_java_format,
 		formatting.ktlint,

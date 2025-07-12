@@ -87,8 +87,8 @@ Plug 'olexsmir/gopher.nvim'
 " todo comments
 Plug 'folke/todo-comments.nvim'
 
-" Markdown preview
-Plug 'ellisonleao/glow.nvim'
+" Mini icons
+Plug 'echasnovski/mini.icons'
 
 " Local Config
 Plug 'MunifTanjim/exrc.nvim'
@@ -133,3 +133,6 @@ Plug 'someone-stole-my-name/yaml-companion.nvim'
 
 " Kubernetes
 Plug 'ramilito/kubectl.nvim'
+
+" Code Companion
+Plug 'olimorris/codecompanion.nvim'

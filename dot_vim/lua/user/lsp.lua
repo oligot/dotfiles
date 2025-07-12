@@ -175,10 +175,10 @@ lspconfig.gitlab_ci_ls.setup({
 })
 
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-  pattern = "*.gitlab-ci*.{yml,yaml}",
-  callback = function()
-    vim.bo.filetype = "yaml.gitlab"
-  end,
+	pattern = "*.gitlab-ci*.{yml,yaml}",
+	callback = function()
+		vim.bo.filetype = "yaml.gitlab"
+	end,
 })
 
 -- Golang
@@ -206,20 +206,53 @@ lspconfig.jsonls.setup({
 	},
 })
 
--- Nix
-lspconfig.nil_ls.setup{
+-- Markdown
+lspconfig.marksman.setup({
 	on_attach = M.on_attach,
 	capabilities = M.get_capabilities(),
-}
+})
+
+-- Nix
+lspconfig.nil_ls.setup({
+	on_attach = M.on_attach,
+	capabilities = M.get_capabilities(),
+})
 
 -- Python
 lspconfig.pylsp.setup({
+	on_attach = M.on_attach,
+	capabilities = M.get_capabilities(),
+	settings = {
+		pylsp = {
+			plugins = {
+				pyflakes = { enabled = false },
+				pycodestyle = { enabled = false },
+				pylint = { enabled = false },
+			},
+		},
+	},
+})
+
+-- Ruff
+lspconfig.ruff.setup({
 	on_attach = M.on_attach,
 	capabilities = M.get_capabilities(),
 })
 
 -- SQL
 lspconfig.sqlls.setup({
+	on_attach = M.on_attach,
+	capabilities = M.get_capabilities(),
+})
+
+-- Terraform
+lspconfig.terraformls.setup({
+	on_attach = M.on_attach,
+	capabilities = M.get_capabilities(),
+})
+
+-- TFLint
+lspconfig.tflint.setup({
 	on_attach = M.on_attach,
 	capabilities = M.get_capabilities(),
 })
@@ -246,20 +279,20 @@ lspconfig.ts_ls.setup({
 	on_attach = M.on_attach,
 	capabilities = M.get_capabilities(),
 	init_options = {
-    plugins = {
-      {
-        name = "@vue/typescript-plugin",
+		plugins = {
+			{
+				name = "@vue/typescript-plugin",
 				-- location MUST be defined. If the plugin is installed in node_modules, location can have any value
-        location = "./node_modules/@vue/language-server",
-        languages = {"vue"},
-      },
-    },
-  },
-  filetypes = {
-    "javascript",
-    "typescript",
-    "vue",
-  },
+				location = "./node_modules/@vue/language-server",
+				languages = { "vue" },
+			},
+		},
+	},
+	filetypes = {
+		"javascript",
+		"typescript",
+		"vue",
+	},
 })
 
 -- Vue.js
@@ -344,10 +377,13 @@ local function setup()
 		"jdtls",
 		"jsonls",
 		"lemminx",
+		"marksman",
 		"pylsp",
 		"sqlls",
 		"lua_ls",
 		"tailwindcss",
+		"terraformls",
+		"tflint",
 		"ts_ls",
 		"volar",
 		"yamlls",
