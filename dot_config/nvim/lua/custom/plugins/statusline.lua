@@ -8,7 +8,7 @@ return {
     require("lualine").setup {
       options = {
         icons_enabled = true,
-        theme = "nord",
+        theme = "catppuccin-frappe",
         globalstatus = true,
       },
       sections = {

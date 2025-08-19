@@ -8,9 +8,11 @@
     autocrlf = input
     whitespace = cr-at-eol
     excludesfile = ~/.gitignore
-    pager = delta --dark
+    pager = delta
 [interactive]
     diffFilter = delta --color-only
+[delta]
+    features = catppuccin-frappe
 [push]
     default = simple
     followTags = true
@@ -38,9 +40,11 @@
 [tag]
     sort = version:refname
 
-# use separate file for username / github token / etc
 [include]
+    # use separate file for username / github token / etc
     path = ~/.gitconfig.local
+    # delta theme
+    path = ~/.config/delta/catppuccin.gitconfig
 [diff]
     algorithm = histogram
     compactionHeuristic = true
