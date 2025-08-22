@@ -11,6 +11,7 @@ fi
 tmux list-sessions | grep "^$SESSION\:.*$" > /dev/null
 if [ "$?" -ne 0 ]; then
   tmux -2 new-session -s $SESSION -d
+  tmux rename-window $SESSION
   tmux send-keys "nvim" C-m
   tmux split-window
   tmux split-window -h
