@@ -21,13 +21,21 @@ return {
 
   config = function()
     local servers = {
-      -- basedpyright = {},
       bashls = {},
       gopls = {},
       jsonls = {},
       lua_ls = {},
       marksman = {},
-      ty = {},
+      ty = {
+        settings = {
+          ty = {
+            experimental = {
+              rename = true,
+              -- autoImport = true,
+            },
+          },
+        },
+      },
       yamlls = {
         validate = true,
         -- disable the schema store
