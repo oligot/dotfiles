@@ -143,6 +143,7 @@ alias ls='eza'
 alias nvim-kickstart='NVIM_APPNAME="nvim-kickstart" nvim'
 alias preview="fzf --preview 'bat --color=always {}'"
 alias printcert="openssl x509 -noout -text -in "
+alias r='cd $(git root)'
 alias rm='rm -I'
 alias s='git status -s'
 alias sudo='sudo '
