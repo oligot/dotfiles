@@ -18,10 +18,12 @@ return {
   opts = {
     formatters_by_ft = {
       go = { "gofmt" },
-      lua = { "stylua" },
-      python = { "ruff_organize_imports" },
       javascript = { "prettierd", "prettier", stop_after_first = true },
+      json = { "jq" },
+      lua = { "stylua" },
       nix = { "nixfmt" },
+      python = { "ruff_format", "ruff_organize_imports" },
+      toml = { "taplo" },
     },
     default_format_opts = {
       lsp_format = "fallback",

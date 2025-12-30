@@ -23,6 +23,15 @@ return {
     local servers = {
       bashls = {},
       gopls = {},
+      helm_ls = {
+        settings = {
+          ["helm-ls"] = {
+            yamlls = {
+              path = "yaml-language-server",
+            },
+          },
+        },
+      },
       jsonls = {},
       lua_ls = {},
       marksman = {},
@@ -37,33 +46,58 @@ return {
         },
       },
       yamlls = {
-        validate = true,
-        -- disable the schema store
-        schemaStore = {
-          enable = false,
-          url = "",
+        settings = {
+          yaml = {
+            validate = true,
+            -- disable the schema store
+            schemaStore = {
+              enable = false,
+              url = "",
+            },
+            -- Based on https://www.arthurkoziel.com/json-schemas-in-neovim/
+            schemas = {
+              ["https://json.schemastore.org/kustomization.json"] = "kustomization.{yml,yaml}",
+              ["https://raw.githubusercontent.com/awslabs/goformation/master/schema/cloudformation.schema.json"] = "template.{yml,yaml}",
+              ["https://raw.githubusercontent.com/docker/compose/master/compose/config/compose_spec.json"] = "*compose*.{yml,yaml}",
+              ["https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/argoproj.io/application_v1alpha1.json"] = "argocd-application.yaml",
+            },
+            -- Allow custom CloudFormation tags
+            -- customTags = {
+            --   "!And",
+            --   "!Base64",
+            --   "!Cidr",
+            --   "!Condition",
+            --   "!Equals",
+            --   "!FindInMap sequence",
+            --   "!GetAtt",
+            --   "!GetAZs",
+            --   "!If",
+            --   "!ImportValue",
+            --   "!Join sequence",
+            --   "!Not",
+            --   "!Or",
+            --   "!Ref",
+            --   "!Select sequence",
+            --   "!Split sequence",
+            --   "!Sub sequence", -- Allows !Sub [ String, { Var: Val } ]
+            --   "!Sub scalar", -- Allows !Sub "String"
+            -- },
+            -- schemas = require("schemastore").yaml.schemas {
+            --   -- select subset from the JSON schema catalog
+            --   select = {
+            --     "kustomization.yaml",
+            --     "docker-compose.yml",
+            --   },
+            --
+            --   -- additional schemas (not in the catalog)
+            --   extra = {
+            --     url = "https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/argoproj.io/application_v1alpha1.json",
+            --     name = "Argo CD Application",
+            --     fileMatch = "argocd-application.yaml",
+            --   },
+            -- },
+          },
         },
-        -- Based on https://www.arthurkoziel.com/json-schemas-in-neovim/
-        schemas = {
-          ["https://json.schemastore.org/kustomization.json"] = "kustomization.{yml,yaml}",
-          ["https://raw.githubusercontent.com/awslabs/goformation/master/schema/cloudformation.schema.json"] = "template.{yml,yaml}",
-          ["https://raw.githubusercontent.com/docker/compose/master/compose/config/compose_spec.json"] = "*compose*.{yml,yaml}",
-          ["https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/argoproj.io/application_v1alpha1.json"] = "argocd-application.yaml",
-        },
-        -- schemas = require("schemastore").yaml.schemas {
-        --   -- select subset from the JSON schema catalog
-        --   select = {
-        --     "kustomization.yaml",
-        --     "docker-compose.yml",
-        --   },
-        --
-        --   -- additional schemas (not in the catalog)
-        --   extra = {
-        --     url = "https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/argoproj.io/application_v1alpha1.json",
-        --     name = "Argo CD Application",
-        --     fileMatch = "argocd-application.yaml",
-        --   },
-        -- },
       },
     }
 

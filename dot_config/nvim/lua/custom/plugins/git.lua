@@ -5,4 +5,5 @@ return {
     "ruifm/gitlinker.nvim",
     opts = {},
   },
+  { "akinsho/git-conflict.nvim", version = "*", config = true },
 }
