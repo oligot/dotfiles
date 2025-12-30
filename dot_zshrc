@@ -156,11 +156,25 @@ alias yupi='yarn upgrade-interactive --latest'
 # at the beginning of the command line.
 alias -g L='| less'
 alias -g G='| grep'
-alias -g P='| python -m json.tool'
-alias -g X='| xclip -sel clip'
+alias -g P='| python3 -m json.tool'
+alias -g X='| clip'
 alias -g Z='| fzf'
 
 function mingz () { curl -sL wzrd.in/standalone/"$1"|uglifyjs -mc 2>/dev/null|gzip -c|wc -c;}
+
+# A "smart" copy-to-clipboard function for zsh
+# It reads from standard input (like a pipe) and copies to the clipboard.
+# It automatically uses xclip on Linux and pbcopy on macOS.
+clip() {
+  if command -v xclip >/dev/null 2>&1; then
+    xclip -selection clipboard
+  elif command -v pbcopy >/dev/null 2>&1; then
+    pbcopy
+  else
+    echo "ERROR: No clipboard tool found. Please install xclip (Linux) or pbcopy (macOS)." >&2
+    return 1
+  fi
+}
 
 # zsh Options
 setopt			   \
