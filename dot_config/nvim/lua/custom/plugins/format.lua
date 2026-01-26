@@ -23,6 +23,7 @@ return {
       lua = { "stylua" },
       nix = { "nixfmt" },
       python = { "ruff_format", "ruff_organize_imports" },
+      sh = { "shfmt" },
       toml = { "taplo" },
     },
     default_format_opts = {

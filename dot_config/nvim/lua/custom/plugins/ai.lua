@@ -1,5 +1,4 @@
 return {
-  "github/copilot.vim",
   {
     "olimorris/codecompanion.nvim",
     -- "yetone/avante.nvim",
