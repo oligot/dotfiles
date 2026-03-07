@@ -35,6 +35,7 @@ return {
       jsonls = {},
       lua_ls = {},
       marksman = {},
+      terraformls = {},
       ts_ls = {},
       ty = {
         settings = {

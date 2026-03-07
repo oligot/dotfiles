@@ -20,5 +20,10 @@ vim.filetype.add {
         end
       end,
     },
+    -- Matches any file ending in .yaml or .yml inside a 'templates' directory
+    [".*/templates/.*%.ya?ml"] = "helm",
+    -- Matches files named 'values.yaml' or 'values.dev.yaml', etc.
+    [".*/values.*%.ya?ml"] = "helm",
+    [".*/%.vscode/.*%.json"] = "jsonc",
   },
 }

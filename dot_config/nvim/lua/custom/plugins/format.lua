@@ -18,13 +18,14 @@ return {
   opts = {
     formatters_by_ft = {
       go = { "gofmt" },
-      javascript = { "prettierd", "prettier", stop_after_first = true },
-      json = { "jq" },
+      javascript = { "oxfmt" },
+      json = { "oxfmt" },
       lua = { "stylua" },
       nix = { "nixfmt" },
       python = { "ruff_format", "ruff_organize_imports" },
       sh = { "shfmt" },
       toml = { "taplo" },
+      typescript = { "oxfmt" },
     },
     default_format_opts = {
       lsp_format = "fallback",
