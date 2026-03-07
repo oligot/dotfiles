@@ -31,7 +31,7 @@ zplug "plugins/npm", from:oh-my-zsh
 zplug "plugins/sudo", from:oh-my-zsh
 zplug "plugins/systemd", from:oh-my-zsh
 zplug "plugins/tmux", from:oh-my-zsh
-zplug "plugins/yarn", from:oh-my-zsh
+# zplug "plugins/yarn", from:oh-my-zsh
 zplug "plugins/command-not-found", from:oh-my-zsh
 zplug "plugins/terraform", from:oh-my-zsh
 zplug "romkatv/powerlevel10k", as:theme, depth:1
@@ -161,6 +161,17 @@ alias -g X='| clip'
 alias -g Z='| fzf'
 
 function mingz () { curl -sL wzrd.in/standalone/"$1"|uglifyjs -mc 2>/dev/null|gzip -c|wc -c;}
+
+# y shell wrapper that provides the ability to change 
+# the current working directory when exiting Yazi.
+# https://yazi-rs.github.io/docs/quick-start#shell-wrapper
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	command yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
+	rm -f -- "$tmp"
+}
 
 # A "smart" copy-to-clipboard function for zsh
 # It reads from standard input (like a pipe) and copies to the clipboard.
@@ -294,6 +305,8 @@ eval "$(direnv hook zsh)"
 
 eval "$(zoxide init zsh)"
 
+eval "$(mise activate zsh)"
+
 if type "kubectl" > /dev/null; then
     source <(kubectl completion zsh)
 fi
@@ -311,3 +324,5 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 
 # Added by Antigravity
 export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
+
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
