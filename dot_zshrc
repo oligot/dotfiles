@@ -299,6 +299,17 @@ fif() {
   rg --files-with-matches --no-messages "$1" | fzf $FZF_PREVIEW_WINDOW --preview "rg --ignore-case --pretty --context 10 '$1' {}"
 }
 
+claude-sandbox() {
+    # 1. Capture the exact directory you are currently in
+    local target_dir="${1:-$(pwd)}"
+    
+    echo "🔒 Booting isolated environment in: $target_dir"
+    
+    # 2. Use -i to get the correct $HOME, 
+    # then immediately cd back to the project and launch Claude
+    sudo -iu claude-sandbox bash -c "cd '$target_dir' && claude"
+}
+
 test -r "~/.dir_colors" && eval $(dircolors ~/.dir_colors)
 
 eval "$(direnv hook zsh)"
