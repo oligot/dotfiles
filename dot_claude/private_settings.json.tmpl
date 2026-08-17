@@ -12,13 +12,78 @@
       }
     ]
   },
-  "model": "opus",
+  "statusLine": {
+    "type": "command",
+    "command": "{{ .chezmoi.homeDir }}/.claude/hooks/statusline.py"
+  },
+  "model": "claude-sonnet-5",
+  "sandbox": {
+    "enabled": true,
+    "filesystem": { 
+      "allowRead": ["~/.ssh"],
+      "allowWrite": ["~/src"] 
+    }
+  },
   "permissions": {
+    "defaultMode": "auto",
     "allow": [
-      "Bash(ls *)",
-      "Bash(rg *)",
-      "Bash(fd *)",
-      "Bash(bat *)"
+      "Read",
+      "Grep",
+      "Glob",
+      "Bash(rtk read *)",
+      "Bash(rtk find *)",
+      "Bash(rtk grep *)",
+      "Bash(rtk ls *)",
+      "Bash(rtk tree *)",
+      "Bash(rtk wc *)",
+      "Bash(rtk smart *)",
+      "Bash(rtk json *)",
+      "Bash(rtk env)",
+      "Bash(rtk diff *)",
+      "Bash(rtk log *)",
+      "Bash(rtk git status *)",
+      "Bash(rtk git log *)",
+      "Bash(rtk git diff *)",
+      "Bash(rtk git branch *)",
+      "Bash(rtk git show *)",
+      "Bash(rtk git blame *)",
+      "Bash(rtk git stash list)",
+      "Bash(rtk git add *)",
+      "Bash(rtk git commit *)",
+      "Bash(rtk git remote *)",
+      "Bash(rtk gain *)",
+      "Bash(rtk discover *)",
+      "Bash(rtk session *)",
+      "Bash(rtk cc-economics *)",
+      "Bash(head:*)",
+      "Bash(tail:*)",
+      "Bash(wc:*)",
+      "Bash(jq:*)"
+    ],
+    "deny": [
+      "Bash(git push:*)",
+      "Bash(git reset --hard:*)",
+      "Bash(rm -rf:*)"
     ]
-  }
+  },
+  "extraKnownMarketplaces": {
+    "superpowers-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "obra/superpowers-marketplace"
+      }
+    },
+    "claude-skills": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/oligot/claude-skills.git"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "superpowers@superpowers-marketplace": true,
+    "user-skills@claude-skills": true
+  },
+  "skipWorkflowUsageWarning": true,
+  "agentPushNotifEnabled": true
 }
