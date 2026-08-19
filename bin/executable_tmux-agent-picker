@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+
+# Jump to a coding agent in any tmux session. Bound to `prefix + g` (see
+# dot_tmux.conf).
+#
+# Lists every pane tagged by tmux-agent-state, sorted by what needs attention:
+# blocked (a decision is owed), then done (a finished turn awaiting review),
+# then working (needs nothing). Enter on the pre-selected top line therefore
+# reaches the most urgent agent in one keystroke.
+#
+# Panes are labelled by session and window, which is ambiguous only when one
+# window holds two agents, so the pane index is added just for those.
+
+set -uo pipefail
+
+agents=$(
+  tmux list-panes -a -F \
+    '#{@agent_state}|#{session_name}:#{window_index}.#{pane_index}|#{session_name} → #{window_name}|#{session_name}:#{window_index}|#{pane_index}' 2> /dev/null \
+    | awk -F'|' '
+        $1 != "" {
+          n++; state[n] = $1; target[n] = $2; label[n] = $3
+          window[n] = $4; pane[n] = $5
+          agents_in[$4]++
+        }
+        END {
+          # third arg matters: without it split() uses FS, which is "|" here
+          split("blocked done working", order, " ")
+          icon["blocked"] = "●"; icon["done"] = "✓"; icon["working"] = "▶"
+          for (r = 1; r <= 3; r++)
+            for (i = 1; i <= n; i++)
+              if (state[i] == order[r])
+                printf "%s\t%s %-7s %s%s\n", target[i], icon[state[i]],
+                  state[i], label[i],
+                  (agents_in[window[i]] > 1 ? " · pane " pane[i] : "")
+        }
+      '
+)
+
+if [ -z "$agents" ]; then
+  tmux display-message "No agents running"
+  exit 0
+fi
+
+target=$(
+  printf '%s\n' "$agents" \
+    | fzf --delimiter='\t' --with-nth=2 --no-sort --prompt='agents> ' \
+    | cut -f1
+)
+
+[ -n "$target" ] || exit 0
+
+tmux switch-client -t "${target%%:*}"
+tmux select-window -t "${target%.*}"
+tmux select-pane -t "$target"

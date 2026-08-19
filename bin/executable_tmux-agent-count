@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+# Inventory of agent panes across every session on this tmux server, one
+# segment per non-zero state: ●blocked ▶working ✓done. State is written by
+# tmux-agent-state.
+#
+# Icon and padding come from the catppuccin module in ~/.tmux/status/agents.conf.
+# Empty output when no agents exist at all is load-bearing: tmux.conf tests it
+# to decide whether to draw the module at all.
+
+blocked=0 working=0 finished=0
+
+while read -r state; do
+  case $state in
+    blocked) blocked=$((blocked + 1)) ;;
+    working) working=$((working + 1)) ;;
+    done) finished=$((finished + 1)) ;;
+  esac
+done < <(tmux list-panes -a -F '#{@agent_state}' 2> /dev/null)
+
+out=""
+[ "$blocked" -gt 0 ] && out="●$blocked"
+[ "$working" -gt 0 ] && out="$out ▶$working"
+[ "$finished" -gt 0 ] && out="$out ✓$finished"
+
+printf '%s' "${out# }"
+
+exit 0

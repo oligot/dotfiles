@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+# Tag the calling tmux pane with the state of the coding agent running in it.
+#
+# Invoked from Claude Code hooks (see dot_claude/private_settings.json.tmpl).
+# Hook payload arrives as JSON on stdin and is ignored; the state comes from $1.
+#
+#   UserPromptSubmit -> working    PostToolUse -> working
+#   Notification     -> blocked    Stop        -> done
+#
+# `blocked` means the agent needs a decision, and only that; the counter is a
+# count of decisions owed. Two rules keep it honest.
+#
+# PostToolUse is what makes `blocked` recoverable. Notification fires when the
+# agent wants a permission decision or asks a question, but answering either one
+# comes back as a tool result rather than a prompt, so UserPromptSubmit alone
+# would leave the pane tagged blocked for the rest of the turn.
+#
+# `done` outranks `blocked`. Claude Code also fires Notification as an idle
+# nudge once a turn has been sitting unread, which would otherwise promote every
+# finished agent into the counter. A stopped agent cannot be asking for
+# anything, so a Notification arriving on a `done` pane is always that nudge.
+#
+# State is stored as a pane-scoped tmux option, so it disappears with the pane
+# and never needs cleaning up. Read back by tmux-agent-count and
+# tmux-agent-picker.
+#
+# Always exits 0: a tmux failure must never wedge the agent.
+
+state=$1
+
+[ -n "$TMUX_PANE" ] || exit 0
+
+case $state in
+  blocked)
+    current=$(tmux show-options -pqv -t "$TMUX_PANE" @agent_state 2> /dev/null)
+    [ "$current" = done ] && exit 0
+    tmux set-option -p -t "$TMUX_PANE" @agent_state blocked 2> /dev/null
+    ;;
+  working | done)
+    tmux set-option -p -t "$TMUX_PANE" @agent_state "$state" 2> /dev/null
+    ;;
+  clear)
+    tmux set-option -pu -t "$TMUX_PANE" @agent_state 2> /dev/null
+    ;;
+esac
+
+exit 0
