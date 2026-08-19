@@ -16,7 +16,10 @@
     "type": "command",
     "command": "{{ .chezmoi.homeDir }}/.claude/hooks/statusline.py"
   },
-  "model": "claude-sonnet-5",
+  "model": "opus[1m]",
+  "skillOverrides": {
+    "superpowers:using-git-worktrees": "off"
+  },
   "sandbox": {
     "enabled": true,
     "filesystem": { 
@@ -78,11 +81,18 @@
         "source": "git",
         "url": "https://github.com/oligot/claude-skills.git"
       }
+    },
+    "ponytail": {
+      "source": {
+        "source": "github",
+        "repo": "DietrichGebert/ponytail"
+      }
     }
   },
   "enabledPlugins": {
     "superpowers@superpowers-marketplace": true,
-    "user-skills@claude-skills": true
+    "user-skills@claude-skills": true,
+    "ponytail@ponytail": true
   },
   "skipWorkflowUsageWarning": true,
   "agentPushNotifEnabled": true

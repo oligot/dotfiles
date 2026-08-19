@@ -37,3 +37,7 @@ sg -p 'OLD_PATTERN' -r 'NEW_PATTERN' -l LANG --interactive
 - `$_` matches single AST node, `$$$` matches zero or more nodes
 - `$NAME` captures a named metavariable (reusable in `-r`)
 - `--json` for structured output
+
+# Git worktrees
+
+For creating a git worktree, always use the `user-skills:create-worktree` skill. Never use `superpowers:using-git-worktrees` (it is disabled via `skillOverrides` in settings.json).
