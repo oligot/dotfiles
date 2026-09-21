@@ -194,6 +194,7 @@ setopt			   \
 	correctall	   \
 	extendedglob	   \
 	histignorealldups  \
+	interactivecomments \
 	pushdminus         \
 	pushdsilent        \
 	pushdtohome	   \
