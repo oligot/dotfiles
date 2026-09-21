@@ -10,6 +10,7 @@ import json
 import os
 import sys
 import time
+from datetime import datetime
 
 # ── ANSI helpers ────────────────────────────────────────────────────────────
 RESET = "\033[0m"
@@ -130,6 +131,23 @@ def main():
         if reset:
             txt += f"{DIM} ↻ {reset}{RESET}"
         parts.append(txt)
+
+    # ── Weekly per-model limit (Fable/Opus/…) ─────────────────────────────────
+    # Not exposed on stdin; read the CLI's own cached usage snapshot instead.
+    try:
+        with open(os.path.expanduser("~/.claude.json")) as fh:
+            util = json.load(fh)["cachedUsageUtilization"]["utilization"]
+        win = next(w for w in util["limits"] if w.get("kind") == "weekly_scoped")
+        p = win["percent"]
+        txt = (f"{GREY}{win['scope']['model']['display_name']}{RESET} "
+               f"{color_for_pct(p)}{p:.0f}%{RESET}")
+        if win.get("resets_at"):
+            reset = human_reset(datetime.fromisoformat(win["resets_at"]).timestamp())
+            txt += f"{DIM} ↻ {reset}{RESET}"
+        parts.append(txt)
+    except Exception:
+        pass  # ponytail: cache missing/stale/renamed → just drop the segment
+
     if parts:
         segments.append(" ".join(parts))
 
