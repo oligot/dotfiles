@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# fzf over tmux sessions, most recently attached first, current one excluded,
+# with a preview of the target's active pane. Bound to prefix+s in ~/.tmux.conf.
+# After https://github.com/raine/tmux-tools/blob/main/tmux-session-switcher
+set -euo pipefail
+
+current=$(tmux display-message -p '#S')
+target=$(tmux list-sessions -F '#{session_last_attached} #{session_name}' \
+  | sort -rn | cut -d' ' -f2- | grep -vx -- "$current" \
+  | fzf --reverse --prompt='session> ' \
+        --preview 'tmux capture-pane -ep -t {}' --preview-window=right:60%) || exit 0
+
+tmux switch-client -t "=$target"

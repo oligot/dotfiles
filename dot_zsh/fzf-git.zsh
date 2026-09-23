@@ -19,18 +19,3 @@ fzf-git-checkout() {
         git checkout $branch;
     fi
 }
-
-fzf-git-worktree() {
-    git rev-parse HEAD > /dev/null 2>&1 || return
-
-    local worktree
-
-    worktree=$(git worktree list | fzf)
-    if [[ "$worktree" = "" ]]; then
-      echo "No worktree selected."
-      return
-    fi
-
-    local dir=$(echo "$worktree" | cut -d ' ' -f1)
-    tmux-windowizer $dir
-}

@@ -11,12 +11,13 @@
         ]
       }
     ],
-    "PostToolUse": [
+    "SessionStart": [
       {
+        "matcher": "startup|resume|clear|fork",
         "hooks": [
           {
             "type": "command",
-            "command": "{{ .chezmoi.homeDir }}/bin/tmux-agent-state working"
+            "command": "workmux register-agent"
           }
         ]
       }
@@ -26,17 +27,28 @@
         "hooks": [
           {
             "type": "command",
-            "command": "{{ .chezmoi.homeDir }}/bin/tmux-agent-state working"
+            "command": "workmux set-window-status working"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "workmux set-window-status working"
           }
         ]
       }
     ],
     "Notification": [
       {
+        "matcher": "permission_prompt|elicitation_dialog",
         "hooks": [
           {
             "type": "command",
-            "command": "{{ .chezmoi.homeDir }}/bin/tmux-agent-state blocked"
+            "command": "workmux set-window-status waiting"
           }
         ]
       }
@@ -46,17 +58,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "{{ .chezmoi.homeDir }}/bin/tmux-agent-state done"
-          }
-        ]
-      }
-    ],
-    "SessionEnd": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "{{ .chezmoi.homeDir }}/bin/tmux-agent-state clear"
+            "command": "workmux set-window-status done"
           }
         ]
       }

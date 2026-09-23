@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+
+# fzf/readline front-ends for workmux, launched from the `prefix + w` menu in
+# ~/.tmux.conf. Runs inside a tmux popup whose cwd is the current pane's path,
+# so workmux resolves the right repository.
+#
+#   add         prompt for a branch name, create worktree + window
+#   add-prompt  same, plus a prompt handed to the agent pane
+#   open|remove|close  pick a worktree (main included) with fzf, then run that subcommand
+
+set -euo pipefail
+
+pick() {
+  # HANDLE BRANCH AGENT OPEN table, main included; prints the chosen handle
+  workmux list --json \
+    | jq -r '["HANDLE","BRANCH","AGENT","OPEN"],
+             (.[] | [.handle, .branch, (.agent_statuses | join(",")), (if .is_open then "●" else "" end)])
+             | @tsv' \
+    | column -t -s $'\t' \
+    | fzf --header-lines=1 --prompt="$1> " \
+    | awk '{print $1}'
+}
+
+case ${1:-} in
+  add)
+    read -r -e -p 'branch> ' branch
+    [ -n "$branch" ] && workmux add "$branch"
+    ;;
+  add-prompt)
+    read -r -e -p 'branch> ' branch
+    [ -n "$branch" ] || exit 0
+    read -r -e -p 'prompt> ' prompt
+    workmux add "$branch" -p "$prompt"
+    ;;
+  open | remove | close)
+    handle=$(pick "$1") || exit 0
+    [ -n "$handle" ] && workmux "$1" "$handle"
+    ;;
+  *)
+    echo "usage: workmux-popup add|add-prompt|open|remove|close" >&2
+    exit 2
+    ;;
+esac

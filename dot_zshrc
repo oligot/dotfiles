@@ -14,8 +14,6 @@ zplug "zsh-users/zsh-history-substring-search"
 zplug "MichaelAquilina/zsh-you-should-use"
 zplug "akarzim/zsh-docker-aliases"
 zplug "denisidoro/navi"
-zplug "changyuheng/fz", defer:1
-zplug "rupa/z", use:z.sh
 zplug "plugins/archlinux", from:oh-my-zsh
 zplug "plugins/docker", from:oh-my-zsh
 zplug "plugins/docker-compose", from:oh-my-zsh
@@ -149,7 +147,7 @@ alias s='git status -s'
 alias sudo='sudo '
 alias t='tmux-sessionizer'
 alias v='nvim'
-alias w='fzf-git-worktree'
+alias w='workmux-popup open'
 alias yupi='yarn upgrade-interactive --latest'
 
 # Global aliases -- These do not have to be
@@ -339,7 +337,11 @@ export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
 
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
-if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi
+# workmux: git worktrees + tmux windows (https://workmux.raine.dev)
+if command -v workmux >/dev/null 2>&1; then
+  eval "$(workmux completions zsh)"
+  alias wm=workmux
+fi
 
 # Vite+ bin (https://viteplus.dev)
 . "$HOME/.vite-plus/env"
