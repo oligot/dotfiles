@@ -41,3 +41,20 @@ sg -p 'OLD_PATTERN' -r 'NEW_PATTERN' -l LANG --interactive
 # Git worktrees
 
 For creating a git worktree, always use the `user-skills:create-worktree` skill. Never use `superpowers:using-git-worktrees` (it is disabled via `skillOverrides` in settings.json).
+
+# Implementation plans
+
+Every plan written to `docs/superpowers/plans/` includes an `## Execution Model`
+section right after the header, before the tasks. It has:
+
+- a legend: 🤖 Subagent (file edits, local validation, commits, no live-system
+  access) · 👤 Human · 🚧 Manual gate (hard stop, next task waits until it clears)
+- a `**Progress: N / M tasks done (P%).**` line
+- a table `| Task | Status | What | Executor |` with one row per task, Status
+  ⬜/✅, Executor 🤖, 👤, 👤 🚧, or "Mixed — Steps a–b 🤖 · Step c 👤 🚧"
+- the branch and worktree the work happens on
+- a "How to run this plan" paragraph: Pass 1 lists the 🤖 work, Pass 2 the
+  human steps in order, plus hard orderings between them
+
+Update the Status column and the Progress line as tasks complete. Never commit
+spec or plan files.
