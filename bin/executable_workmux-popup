@@ -6,6 +6,7 @@
 #
 #   add         prompt for a branch name, create worktree + window
 #   add-prompt  same, plus a prompt handed to the agent pane
+#   branch      pick a local or remote branch with fzf, open or create its worktree
 #   open|remove|close  pick a worktree (main included) with fzf, then run that subcommand
 
 set -euo pipefail
@@ -21,6 +22,27 @@ pick() {
     | awk '{print $1}'
 }
 
+pick_branch() {
+  # local + remote branches, newest first, ● when a worktree already has it.
+  # Locals are collected up front so a remote copy of a local branch is
+  # dropped whatever the date order.
+  local locals worktrees
+  locals=$(git for-each-ref --format='%(refname:short)' refs/heads | paste -sd' ' -)
+  worktrees=$(git worktree list --porcelain | awk '/^branch /{sub("refs/heads/",""); print $2}' | paste -sd' ' -)
+  git for-each-ref --sort=-committerdate --exclude='refs/remotes/*/HEAD' \
+      --format='%(refname:short)%09%(objectname:short)%09%(committerdate:relative)%09%(subject)' \
+      refs/heads refs/remotes \
+    | awk -F'\t' -v locals="$locals" -v wt="$worktrees" '
+        BEGIN { split(locals, a, " "); for (i in a) is_local[a[i]] = 1
+                split(wt, b, " ");     for (i in b) has_wt[b[i]] = 1 }
+        !is_local[$1] { short = $1; sub(/^[^\/]+\//, "", short)
+                        if (is_local[short]) next }   # remote shadowed by local
+        { printf "%s\t%s %-40s %s %s %s\n", $1, (has_wt[$1] ? "●" : " "), $1, $2, $3, $4 }
+      ' \
+    | fzf --exit-0 --delimiter='\t' --with-nth=2 --no-sort --prompt='branch> ' \
+    | cut -f1
+}
+
 case ${1:-} in
   add)
     read -r -e -p 'branch> ' branch
@@ -32,12 +54,16 @@ case ${1:-} in
     read -r -e -p 'prompt> ' prompt
     workmux add "$branch" -p "$prompt"
     ;;
+  branch)
+    ref=$(pick_branch) || exit 0
+    [ -n "$ref" ] && workmux add -o "$ref"
+    ;;
   open | remove | close)
     handle=$(pick "$1") || exit 0
     [ -n "$handle" ] && workmux "$1" "$handle"
     ;;
   *)
-    echo "usage: workmux-popup add|add-prompt|open|remove|close" >&2
+    echo "usage: workmux-popup add|add-prompt|branch|open|remove|close" >&2
     exit 2
     ;;
 esac
