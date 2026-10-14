@@ -1,29 +1,44 @@
 #!/usr/bin/env bash
+# t [dir]: pick a project under ~/src (zoxide order) and land in its tmux
+# session. On first use the session gets its first window built: the main
+# worktree via workmux for a bare-repo layout, else nvim / shell / shell.
+set -euo pipefail
 
-# Heavily inspired by 
-# https://github.com/ThePrimeagen/.dotfiles/blob/f19fe9fda8814dd98b0480aa1064fe0844f4eacb/bin/.local/scripts/tmux-sessionizer
-
-if [[ $# -eq 1 ]]; then
-    selected=$1
+if [ $# -eq 1 ]; then
+  dir=$(cd "$1" 2>/dev/null && pwd -P) || { echo "not a directory: $1" >&2; exit 1; }
 else
-    selected=$(find ~/src -mindepth 1 -maxdepth 1 -type d | fzf)
+  if command -v zoxide >/dev/null 2>&1; then
+    list=$(zoxide query -l | sed -n "s|^\($HOME/src/[^/]*\).*|\1|p" | awk '!seen[$0]++') || true
+  else
+    list=$(find ~/src -mindepth 1 -maxdepth 1 -type d)
+  fi
+  dir=$(printf '%s\n' "$list" | fzf --prompt='project> ') || exit 0
+fi
+[ -d "$dir" ] || { echo "not a directory: $dir" >&2; exit 1; }
+
+name=$(basename "$dir" | tr . _)
+
+if ! tmux has-session -t "=$name" 2>/dev/null; then
+  tmux new-session -ds "$name" -c "$dir"
+  win=$(tmux display-message -p -t "=$name:" '#I')   # base-index may be 1; ":" = current window
+  [ -n "$win" ] || { echo "could not read the new window index" >&2; exit 1; }
+  main=$(basename "$(git -C "$dir" symbolic-ref --short HEAD 2>/dev/null || echo main)")
+  if [ "$(git -C "$dir" rev-parse --is-bare-repository 2>/dev/null)" = true ] && [ -d "$dir/$main" ]; then
+    # bare-repo layout: <project>/.bare + <project>/main. workmux opens the
+    # main worktree window (configured panes, agent tracking) in the new
+    # session; the shell window new-session made is then redundant.
+    (cd "$dir" && workmux open "$main" --parent-session "$name") || { tmux kill-session -t "=$name"; exit 1; }
+    tmux kill-window -t "$name:$win"
+  else
+    tmux rename-window -t "$name:$win" "$name"
+    tmux send-keys -t "$name:$win" nvim Enter
+    tmux split-window -v -t "$name:$win" -c "$dir"
+    tmux split-window -h -t "$name:$win" -c "$dir"
+  fi
 fi
 
-if [[ -z $selected ]]; then
-    exit 0
+if [ -n "${TMUX:-}" ]; then
+  tmux switch-client -t "$name"
+else
+  tmux attach -t "$name"
 fi
-
-selected_name=$(basename "$selected" | tr . _)
-tmux_running=$(pgrep tmux)
-
-if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-    tmux new-session -s "$selected_name" -c "$selected"
-    exit 0
-fi
-
-if ! tmux has-session -t="$selected_name" 2> /dev/null; then
-    tmux new-session -ds "$selected_name" -c "$selected"
-    tmux rename-window $selected_name
-fi
-
-tmux switch-client -t "$selected_name"
