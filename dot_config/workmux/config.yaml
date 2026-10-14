@@ -1,0 +1,36 @@
+# workmux global config. Project overrides live in <repo>/.workmux.yaml.
+# https://workmux.raine.dev/guide/configuration/
+
+mode: window
+# Repos use the bare-repo sibling layout (<project>/main, <project>/<slug>), so
+# new worktrees go next to the current checkout, named after the branch basename:
+# feat/foo -> ../foo
+worktree_dir: ..
+worktree_naming: basename
+window_prefix: ""
+window_placement: after_current
+
+agent: claude
+merge_strategy: rebase
+
+# Agent state is shown by the cross-session count pill in status-right (see
+# ~/bin/tmux-agent-count), not per window: keep workmux out of the window
+# status format. Navigation is prefix+l (last-done) and prefix+g (dashboard).
+status_format: false
+
+# Written by `wm setup`; keep it here so chezmoi apply does not drop it.
+nerdfont: true
+
+files:
+  symlink:
+    - .claude/settings.local.json
+
+# Default window layout: nvim on top, shell bottom-left, agent bottom-right.
+# workmux terms: vertical = stacked (top/bottom), horizontal = side by side.
+panes:
+  - command: nvim
+  - split: vertical
+    # percentage: 40
+  - command: <agent>
+    split: horizontal
+    focus: true

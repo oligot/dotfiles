@@ -6,17 +6,18 @@
         "hooks": [
           {
             "type": "command",
-            "command": "{{ .chezmoi.homeDir }}/.claude/hooks/rtk-rewrite.sh"
+            "command": "~/.claude/hooks/rtk-rewrite.sh"
           }
         ]
       }
     ],
-    "PostToolUse": [
+    "SessionStart": [
       {
+        "matcher": "startup|resume|clear|fork",
         "hooks": [
           {
             "type": "command",
-            "command": "{{ .chezmoi.homeDir }}/bin/tmux-agent-state working"
+            "command": "workmux register-agent"
           }
         ]
       }
@@ -26,17 +27,28 @@
         "hooks": [
           {
             "type": "command",
-            "command": "{{ .chezmoi.homeDir }}/bin/tmux-agent-state working"
+            "command": "workmux set-window-status working"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "workmux set-window-status working"
           }
         ]
       }
     ],
     "Notification": [
       {
+        "matcher": "permission_prompt|elicitation_dialog",
         "hooks": [
           {
             "type": "command",
-            "command": "{{ .chezmoi.homeDir }}/bin/tmux-agent-state blocked"
+            "command": "workmux set-window-status waiting"
           }
         ]
       }
@@ -46,17 +58,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "{{ .chezmoi.homeDir }}/bin/tmux-agent-state done"
-          }
-        ]
-      }
-    ],
-    "SessionEnd": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "{{ .chezmoi.homeDir }}/bin/tmux-agent-state clear"
+            "command": "workmux set-window-status done"
           }
         ]
       }
@@ -64,7 +66,7 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "{{ .chezmoi.homeDir }}/.claude/hooks/statusline.py",
+    "command": "~/.claude/hooks/statusline.py",
     "refreshInterval": 30
   },
   "model": "opus[1m]",
@@ -76,13 +78,6 @@
   "outputStyle": "Concise",
   "skillOverrides": {
     "superpowers:using-git-worktrees": "off"
-  },
-  "sandbox": {
-    "enabled": true,
-    "filesystem": { 
-      "allowRead": ["~/.ssh"],
-      "allowWrite": ["~/src"] 
-    }
   },
   "permissions": {
     "defaultMode": "auto",

@@ -14,8 +14,6 @@ zplug "zsh-users/zsh-history-substring-search"
 zplug "MichaelAquilina/zsh-you-should-use"
 zplug "akarzim/zsh-docker-aliases"
 zplug "denisidoro/navi"
-zplug "changyuheng/fz", defer:1
-zplug "rupa/z", use:z.sh
 zplug "plugins/archlinux", from:oh-my-zsh
 zplug "plugins/docker", from:oh-my-zsh
 zplug "plugins/docker-compose", from:oh-my-zsh
@@ -149,7 +147,7 @@ alias s='git status -s'
 alias sudo='sudo '
 alias t='tmux-sessionizer'
 alias v='nvim'
-alias w='fzf-git-worktree'
+alias w='workmux-popup open'
 alias yupi='yarn upgrade-interactive --latest'
 
 # Global aliases -- These do not have to be
@@ -339,7 +337,25 @@ export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
 
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
-if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi
+# workmux: git worktrees + tmux windows (https://workmux.raine.dev)
+if command -v workmux >/dev/null 2>&1; then
+  eval "$(workmux completions zsh)"
+  alias wm=workmux
+  # Merge the current worktree's PR (bitbucket or gitlab), pull main, remove the worktree.
+  wm-done() {
+    local name=${PWD:t}
+    # Bare-repo layout: first entry is .bare, so pick the worktree on the default branch.
+    local branch=$(git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null | sed 's|origin/||')
+    local main=$(git worktree list | awk -v b="[${branch:-main}]" '$NF == b {print $1}')
+    [[ -n $main ]] || { echo "no worktree on ${branch:-main}"; return 1; }
+    case $(git remote get-url origin) in
+      *bitbucket*) bb pr merge --strategy fast_forward || return ;;
+      *gitlab*)    glab mr merge --auto-merge --rebase --yes || return ;;
+      *) echo "unknown remote host"; return 1 ;;
+    esac
+    cd "$main" && git pull && workmux remove "$name"
+  }
+fi
 
 # Vite+ bin (https://viteplus.dev)
 . "$HOME/.vite-plus/env"
