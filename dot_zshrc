@@ -123,7 +123,7 @@ alias c='fzf-git-checkout'
 alias cdr="cd $(git rev-parse --show-toplevel)"
 alias certpp='openssl x509 -text -in'
 alias curl='nocorrect curl'
-alias d='git diff --word-diff'
+alias d='git dft'
 alias de='git diff --word-diff --no-ext-diff'
 alias df='df -h'
 alias dodo='sudo /sbin/shutdown -h now'
@@ -343,3 +343,13 @@ if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)
 
 # Vite+ bin (https://viteplus.dev)
 . "$HOME/.vite-plus/env"
+
+# Pick an ArgoCD context with fzf, then launch argonaut
+argonaut-ctx() {
+  local ctx
+  ctx=$(grep -E '^  name:' ~/.config/argocd/config | awk '{print $2}' | fzf) || return
+  argocd context "$ctx" >/dev/null || return
+  argocd account get-user-info --grpc-web 2>/dev/null | grep -q "Logged In: true" || argocd login "$ctx" --sso --grpc-web || return
+  # Without -F less quits instantly on short output, so argonaut's diff view would show nothing.
+  LESS=-SRX argonaut
+}

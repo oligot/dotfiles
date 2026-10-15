@@ -4,6 +4,8 @@
     name = Olivier Ligot
 [alias]
     bd = for-each-ref --sort=-committerdate refs/remotes/
+    # difftool never pages; running difft as an external diff keeps the pager
+    dft = -c diff.external=difft diff
 [core]
     autocrlf = input
     whitespace = cr-at-eol
@@ -50,7 +52,7 @@
     compactionHeuristic = true
     colorMoved = zebra # plain ?
     submodule = diff
-    external = difft
+    # no global external diff: tools that parse `git diff` output (argonaut, patch) need unified diffs
     mnemonicPrefix = true
     renames = true
 [fetch]
