@@ -342,7 +342,7 @@ export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi
 
 # Vite+ bin (https://viteplus.dev)
-. "$HOME/.vite-plus/env"
+[ -f "$HOME/.vite-plus/env" ] && . "$HOME/.vite-plus/env"
 
 # Pick an ArgoCD context with fzf, then launch argonaut
 argonaut-ctx() {
