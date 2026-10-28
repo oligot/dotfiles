@@ -88,11 +88,7 @@ export EDITOR="nvim"
 export BROWSER="firefox"
 export FZF_DEFAULT_COMMAND='rg --files --follow --hidden'
 export FZF_DEFAULT_OPTS=" \
---color=bg+:#414559,bg:#303446,spinner:#F2D5CF,hl:#E78284 \
---color=fg:#C6D0F5,header:#E78284,info:#CA9EE6,pointer:#F2D5CF \
---color=marker:#BABBF1,fg+:#C6D0F5,prompt:#CA9EE6,hl+:#E78284 \
---color=selected-bg:#51576D \
---color=border:#737994,label:#C6D0F5 \
+--color=16 \
 --bind='ctrl-o:execute(code {})+abort'"
 export KUBECONFIG=$HOME/.kube/config
 
@@ -148,6 +144,7 @@ alias rm='rm -I'
 alias s='git status -s'
 alias sudo='sudo '
 alias t='tmux-sessionizer'
+[[ -n $REX_SESSION ]] && alias t='rex-sessionizer'
 alias v='nvim'
 alias w='fzf-git-worktree'
 alias yupi='yarn upgrade-interactive --latest'
@@ -343,6 +340,28 @@ if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)
 
 # Vite+ bin (https://viteplus.dev)
 . "$HOME/.vite-plus/env"
+
+# Merge the current worktree's PR (bitbucket or gitlab), pull main, then drop the
+# worktree, its branch and the Rex window rex-windowizer opened for it.
+wt-done() {
+  local dir=$PWD name=${PWD:t}
+  local branch=$(git branch --show-current)
+  # Bare-repo layout: first entry is .bare, so pick the worktree on the default branch.
+  local default=$(git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null | sed 's|origin/||')
+  local main=$(git worktree list | awk -v b="[${default:-main}]" '$NF == b {print $1}')
+  [[ -n $main ]] || { echo "no worktree on ${default:-main}"; return 1; }
+  case $(git remote get-url origin) in
+    *bitbucket*) bb pr merge --strategy fast_forward || return ;;
+    *gitlab*)    glab mr merge --auto-merge --rebase --yes || return ;;
+    *) echo "unknown remote host"; return 1 ;;
+  esac
+  cd "$main" && git pull && git worktree remove "$dir" && git branch -d "$branch"
+  if [[ -n $REX_SESSION ]]; then
+    local label=$(tr "./" "__" <<< "$name")
+    local wid=$(rex window ls -s "$REX_SESSION" --json | jq -r --arg l "$label" '.windows[] | select(.label == $l) | .window_id')
+    [[ -n $wid ]] && rex window close -s "$REX_SESSION" "$wid"
+  fi
+}
 
 # Pick an ArgoCD context with fzf, then launch argonaut
 argonaut-ctx() {

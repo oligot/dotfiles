@@ -14,7 +14,7 @@
 [interactive]
     diffFilter = delta --color-only
 [delta]
-    features = catppuccin-frappe
+    syntax-theme = ansi
 [push]
     default = simple
     followTags = true
@@ -45,8 +45,6 @@
 [include]
     # use separate file for username / github token / etc
     path = ~/.gitconfig.local
-    # delta theme
-    path = ~/.config/delta/catppuccin.gitconfig
 [diff]
     algorithm = histogram
     compactionHeuristic = true

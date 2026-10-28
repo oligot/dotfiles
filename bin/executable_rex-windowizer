@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Rex port of tmux-windowizer: open (or jump to) a window labelled after DIR in
+# the current session, laid out as nvim on top and two shells below.
+# Usage: rex-windowizer DIR [BOTTOM_RIGHT_COMMAND]
+
+dir=${1:?usage: rex-windowizer DIR [COMMAND]}
+cmd=$2
+label=$(basename "$dir" | tr "./" "__")
+sid=${REX_SESSION:?not inside a Rex session}
+
+wid=$(rex window ls -s "$sid" --json | jq -r --arg l "$label" '.windows[] | select(.label == $l) | .window_id')
+if [[ -n $wid ]]; then
+    rex window focus -s "$sid" "$wid"
+    exit 0
+fi
+
+top=$(rex window new -s "$sid" "$label" --cwd "$dir" --json | jq -r '.block_ids[0]')
+bottom=$(rex split -s "$sid" -b "$top" --split=below --cwd "$dir" --json | jq -r '.block_ids[0]')
+right=$(rex split -s "$sid" -b "$bottom" --split=right --cwd "$dir" --json | jq -r '.block_ids[0]')
+rex block send -s "$sid" -b "$top" $'nvim\r'
+[[ -n $cmd ]] && rex block send -s "$sid" -b "$right" "$cmd"$'\r'
+rex block focus -s "$sid" "$top"

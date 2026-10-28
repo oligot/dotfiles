@@ -17,10 +17,4 @@ return {
       { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
     },
   },
-  {
-    "christoomey/vim-tmux-runner",
-    init = function()
-      vim.g.VtrUseVtrMaps = 1
-    end,
-  },
 }

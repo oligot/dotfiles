@@ -1,11 +1,11 @@
 return {
   {
-    "selimacerbas/markdown-preview.nvim",
-    dependencies = { "selimacerbas/live-server.nvim" },
-    cmd = { "MarkdownPreview", "MarkdownPreviewRefresh", "MarkdownPreviewStop" },
+    "selimacerbas/mdkite.nvim",
+    dependencies = { "selimacerbas/kitehost.nvim" },
+    cmd = "MdKite",
     ft = { "markdown", "mermaid", "mmd" },
     config = function()
-      require("markdown_preview").setup {
+      require("mdkite").setup {
         instance_mode = "multi",
         port = 0,
         open_browser = true,
@@ -15,8 +15,8 @@ return {
       }
     end,
     keys = {
-      { "<leader>mp", "<cmd>MarkdownPreview<cr>", ft = "markdown", desc = "Markdown Preview" },
-      { "<leader>ms", "<cmd>MarkdownPreviewStop<cr>", ft = "markdown", desc = "Markdown Preview Stop" },
+      { "<leader>mp", "<cmd>MdKite start<cr>", ft = "markdown", desc = "Markdown Preview" },
+      { "<leader>ms", "<cmd>MdKite stop<cr>", ft = "markdown", desc = "Markdown Preview Stop" },
     },
   },
   {

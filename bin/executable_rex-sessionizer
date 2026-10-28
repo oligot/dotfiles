@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+# Rex port of tmux-sessionizer: pick a project under ~/src, open (or jump to)
+# the Rex session labelled after it.
+
+if [[ $# -eq 1 ]]; then
+    selected=$1
+else
+    # zoxide-ranked first (a project ranks by its best-scoring descendant, so
+    # bare-repo worktrees count), then the rest of ~/src alphabetically.
+    # Open sessions are marked with " *".
+    selected=$( {
+        zoxide query -l 2>/dev/null | sed -n "s|^\($HOME/src/[^/]*\).*|\1|p"
+        find ~/src -mindepth 1 -maxdepth 1 -type d | sort
+    } | awk '!seen[$0]++' \
+      | awk -v open="$(rex session ls --json 2>/dev/null | jq -r '.sessions[].label' | paste -sd, -)" '
+            BEGIN { n = split(open, a, ","); for (i in a) is_open[a[i]] = 1 }
+            { l = $0; sub(".*/", "", l); gsub(/\./, "_", l); print $0 (l in is_open ? " *" : "") }' \
+      | fzf | sed 's/ \*$//')
+fi
+[[ -z $selected ]] && exit 0
+
+label=$(basename "$selected" | tr . _)
+# Bare-repo layout (~/src/<repo>/main): work in the main worktree.
+[[ -d $selected/main ]] && selected=$selected/main
+
+sid=$(rex session ls --json | jq -r --arg l "$label" '.sessions[] | select(.label == $l) | .session_id')
+if [[ -z $sid ]]; then
+    sid=$(rex session new "$label" --cwd "$selected" --json | jq -r '.session_id')
+    # First window gets the windowizer layout, with claude bottom right.
+    first=$(rex window ls -s "$sid" --json | jq -r '.windows[0].window_id')
+    REX_SESSION=$sid rex-windowizer "$selected" claude
+    rex window close -s "$sid" "$first"
+fi
+
+# Switch the app to it. Needs Settings → Rex Server → Remote Control.
+app=$(rex client ls --json | jq -r '.clients[] | select(.info.kind == "app") | .client_id' | head -1)
+[[ -n $app ]] && rex api call client.perform \
+    "{\"client_id\":\"$app\",\"action\":\"session.select\",\"args\":{\"session_id\":\"$sid\"},\"origin\":\"cli\"}" >/dev/null
