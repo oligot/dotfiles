@@ -32,5 +32,5 @@ fzf-git-worktree() {
     fi
 
     local dir=$(echo "$worktree" | cut -d ' ' -f1)
-    tmux-windowizer $dir
+    if [[ -n $REX_SESSION ]]; then rex-windowizer "$dir"; else tmux-windowizer "$dir"; fi
 }

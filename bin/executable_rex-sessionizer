@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# Rex port of tmux-sessionizer: pick a project under ~/src, open (or jump to)
+# the Rex session labelled after it.
+
+if [[ $# -eq 1 ]]; then
+    selected=$1
+else
+    selected=$(find ~/src -mindepth 1 -maxdepth 1 -type d | fzf)
+fi
+[[ -z $selected ]] && exit 0
+
+label=$(basename "$selected" | tr . _)
+
+sid=$(rex session ls --json | jq -r --arg l "$label" '.sessions[] | select(.label == $l) | .session_id')
+if [[ -z $sid ]]; then
+    sid=$(rex session new "$label" --cwd "$selected" --json | jq -r '.session_id')
+    # First window gets the windowizer layout, with claude bottom right.
+    first=$(rex window ls -s "$sid" --json | jq -r '.windows[0].window_id')
+    REX_SESSION=$sid rex-windowizer "$selected" claude
+    rex window close -s "$sid" "$first"
+fi
+
+# Switch the app to it. Needs Settings → Rex Server → Remote Control.
+app=$(rex client ls --json | jq -r '.clients[] | select(.info.kind == "app") | .client_id' | head -1)
+[[ -n $app ]] && rex api call client.perform \
+    "{\"client_id\":\"$app\",\"action\":\"session.select\",\"args\":{\"session_id\":\"$sid\"},\"origin\":\"cli\"}" >/dev/null
